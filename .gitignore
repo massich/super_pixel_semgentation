@@ -1,0 +1,36 @@
+# igonre the regular extra files from latex
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.run.xml
+*.synctex.gz
+*.tdo
+*.toc
+*.brf
+*.nav
+*.snm
+*.tex~
+*.spl
+
+# ignore the files produced by latexmk
+.*.swp
+*.fdb_latexmk
+*.fls
