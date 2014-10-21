@@ -109,4 +109,4 @@ sympy-plots-for-*.tex/
 *.xdy
 
 # Editors crap
-*.swp # vim temporal stuff
+*.swp
