@@ -17,7 +17,8 @@ Each submission should consist of:
 
 ```no-highlight
 * [ ] Title of paper
-* [ ] Author listing with principal author first including first and last name, affiliation, mailing address, telephone, facsimile, and e-mail address
+* [x] Author listing with principal author first including first and last name, affiliation, mailing address,  and e-mail address
+   |  [ ] telephone, facsimile,
 * [ ] Preference for oral or poster presentation
 * [x] Keywords (up to 5 descriptive words)
 * [ ] Summary text (approximately 2000 words)
