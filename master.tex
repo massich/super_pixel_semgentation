@@ -23,11 +23,10 @@
 \input{content/frontmatter.tex}             % contains the Title and Autor info
 \input{latex/filesystem/fileSetup.tex}      % contains package and variables init.
 \input{content/acronym_definition.tex}      % contains the acronims 
-\input{latex/filesystem/bibtex_option.tex}  % contains the bibtex options
 
 %% Select inputing only one part of the document
 %\includeonly{content/intro/intro}   % the file wihtout .tex
-%\includeonly{content/other_content}
+%\includeonly{content/other/other_content}
  
 \begin{document} 
 \maketitle 
@@ -39,8 +38,8 @@ This document shows the desired format and appearance of a manuscript prepared f
 \keywords{Manuscript format, template, SPIE Proceedings, LaTeX}
 
 %% Incldue the content without .tex extension
-\include{content/intro/intro}   % the file wihtout .tex
-\include{content/other_content}
+\include*{content/intro/intro}   % the file wihtout .tex
+\include*{content/other/other_content}
 
 \acknowledgments     %>>>> equivalent to \section*{ACKNOWLEDGMENTS}       
  
