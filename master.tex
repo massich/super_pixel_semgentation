@@ -19,16 +19,18 @@
 %% \renewcommand{\baselinestretch}{1.65}   %>>> 1.65 for double spacing, 1.25 for 1.5 spacing 
 
 %% Latex documents that need direct input
-\input{latex/filesystem/package.tex}    % contains the latex packages
-\input{content/frontmatter.tex}         % contains the Title and Autor info
-\input{latex/filesystem/fileSetup.tex}  % contains package and variables init.
+\input{latex/filesystem/package.tex}        % contains the latex packages
+\input{content/frontmatter.tex}             % contains the Title and Autor info
+\input{latex/filesystem/fileSetup.tex}      % contains package and variables init.
+\input{content/acronym_definition.tex}      % contains the acronims 
+\input{latex/filesystem/bibtex_option.tex}  % contains the bibtex options
 
 %% Select inputing only one part of the document
 %\includeonly{content/intro/intro}   % the file wihtout .tex
 %\includeonly{content/other_content}
  
-  \begin{document} 
-  \maketitle 
+\begin{document} 
+\maketitle 
 
 \begin{abstract}
 This document shows the desired format and appearance of a manuscript prepared for the Proceedings of the SPIE.  It contains general formatting instructions and hints about how to use LaTeX.  The LaTeX source file that produced this document, {\tt article.tex} (Version 3.3), provides a template, used in conjunction with {\tt spie.cls} (Version 3.3).  
@@ -47,7 +49,7 @@ This unnumbered section is used to identify those who have aided the authors in 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% References %%%%%
 
-\bibliography{report}         %>>>> bibliography data in report.bib
+\bibliography{./content/literature_review}   %>>>> bibliography data in report.bib
 \bibliographystyle{spiebib}   %>>>> makes bibtex use spiebib.bst
 
 \end{document} 
