@@ -1,5 +1,5 @@
 
-QCAV2015 Breast Article writting in Latex
+QCAV2015 Breast Article writing in Latex
 ==============
 
 # What
@@ -26,6 +26,8 @@ Each submission should consist of:
 
 # How
 --------------
+
+## Structure
 The primary file is called master.tex, and contains the bare essential and the abstract to get an idea of the content at a glance. The content is imported using include and input. Latex packages, acronyms, etc.. are called using input directly meanwhile the chapters (or sections) are called using include. If a chapter source requires from an external file, this is imported using input (in the further included chapter file).
 
 The document structure is as follows
@@ -69,6 +71,8 @@ The document structure is as follows
     | |____fonts
     |
 
+## Procedure
+The master branch should be stay clean. Every conceptual increment (or todo item) should generate an issue. In order to address the issue a branch should be created and worked out. Once the issue is finished the master is checked out and the branch merged. If a issue needs to be reopen the issue is checked out, merged to master and reworked. Consider to open a new issue instead of reopening a previous one when possible.
 
 # Important Note:
 --------------
