@@ -19,7 +19,7 @@ Each submission should consist of:
 * [ ] Title of paper
 * [ ] Author listing with principal author first including first and last name, affiliation, mailing address, telephone, facsimile, and e-mail address
 * [ ] Preference for oral or poster presentation
-* [ ] Keywords (up to 5 descriptive words)
+* [x] Keywords (up to 5 descriptive words)
 * [ ] Summary text (approximately 2000 words)
 * [ ] Brief biography of principal author (approximately 50 words)
 ```
