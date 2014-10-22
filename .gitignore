@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -73,10 +74,24 @@
 *.lol
 
 # makeidx
+=======
+# igonre the regular extra files from latex
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.glo
+*.gls
+>>>>>>> origin/master
 *.idx
 *.ilg
 *.ind
 *.ist
+<<<<<<< HEAD
 
 # minitoc
 *.maf
@@ -108,5 +123,10 @@ sympy-plots-for-*.tex/
 # xindy
 *.xdy
 
+# ignore the files produced by latexmk
+*.fdb_latexmk
+*.fls
+
 # Editors crap
 *.swp
+
