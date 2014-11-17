@@ -4,18 +4,23 @@
 \section{Segmentation methodology description} 
 
 Optimization methodologies offer a standardized manner to approach segmentation by minimizing an application-driven cost function~\cite{cremers2007review}.
-The segmentation strategy here adopted is formulated as a \emph{metric labelling} problem. 
-The image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from a labelling set $\mathcal{L}$ (i.e.\, $l \in \text{\{lesion, lesion\}}$ or $l \in \text{\{lungs, fat, parenchyma, .. ., lesion\}}$).
-Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$, and let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their relation and some designing constrains.
-Then the desired segmentation $\hat{\omega}$, corresponds to the labelling configuration minimizing this cost function, $\displaystyle \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)$. 
+\Cref{fig:method} illustrates a generic representation of the segmentation strategy here adopted to delineate breast lesions in \ac{us} images. 
+The overall segmentation can be seen as a three steps strategy: (1) a mapping or encoding of the image into a discrete set of elements, (2) the optimization stage which is formulated as \emph{metric labelling} problem, and (3) a remapping or recoding of the labels obtained in the previous stage to produce the final delineation. 
 
-For further interpretation, \cref{eq:labelingEq} shows the cost details; 
-\cref{fig:method} illustrates a generic version of the segmentation strategy here proposed; and, \cref{fig:methodTerms} offers an interpretation of the terms found in \cref{eq:labelingEq,fig:method} applied to breast lesion segmentation in \ac{us} images.
+In order to formulate the segmentation as a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ (i.e.\, $l \in \text{\{lesion, lesion\}}$ or $l \in \text{\{lungs, fat, parenchyma, .. ., lesion\}}$).
+Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$, and let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their relation and some designing constrains.
+Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration minimizing this cost function, $\displaystyle \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)$. 
+
+\Cref{eq:labelingEq} shows the cost details, and \cref{fig:methodTerms} offers an interpretation of the terms found in \cref{eq:labelingEq,fig:method} applied to segmentation of breast tissues in \ac{us} images.
 
 \begin{equation}
   U(\omega) = \sum_{s\in S} D_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)
   \label{eq:labelingEq}
 \end{equation}
+
+Despite the fact that $\mathcal{S}$ could be any discrete set representing the image, like pixels, overlapping or non overlapping windows, etc.; 
+for this application, the set $\mathcal{S}$ is the super-pixels representation of the image. 
+The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels.
 
 The $U(\omega)$, as defined in \cref{eq:labelingEq}, is the combination of two independent cost functions that are simultaneously minimized as a whole. The former term, $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
  The data term is the cost of assigning a particular label $l$ (also denoted $\omega_s$) to the site $s$ based on the image data of $s$, whereas the pairwise or smoothing term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
