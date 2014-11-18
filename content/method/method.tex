@@ -4,12 +4,23 @@
 \section{Segmentation methodology description} 
 
 Optimization methodologies offer a standardized manner to approach segmentation by minimizing an application-driven cost function~\cite{cremers2007review}.
-\Cref{fig:method} illustrates a generic representation of the segmentation strategy here adopted to delineate breast lesions in \ac{us} images. 
-The overall segmentation can be seen as a three steps strategy: (1) a mapping or encoding of the image into a discrete set of elements, (2) the optimization stage which is formulated as \emph{metric labelling} problem, and (3) a remapping or recoding of the labels obtained in the previous stage to produce the final delineation. 
+\Cref{fig:method} illustrates a generic representation of the segmentation strategy here adopted to delineate breast tissues or lesions in \ac{us} images. 
+The overall segmentation can be seen as a three steps strategy: 
+(1) a mapping or encoding of the image into a discrete set of elements $\mathcal{S}$, 
+(2) the optimization stage which is formulated as \emph{metric labelling} problem, 
+and (3) re-mapping or re-coding of the labels obtained from the previous stage to produce the final delineation. 
 
-In order to formulate the segmentation as a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ (i.e.\, $l \in \text{\{lesion, lesion\}}$ or $l \in \text{\{lungs, fat, parenchyma, .. ., lesion\}}$).
-Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$, and let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their relation and some designing constrains.
-Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration minimizing this cost function, $\displaystyle \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)$. 
+In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
+(i.e.\, $l \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
+or $l \in \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
+Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$; and, let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some designing constrains.
+Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimize this cost function, as described in \cref{eq:costMin}.
+%minimizing this cost function, $\displaystyle \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)$. 
+
+\begin{equation}
+\hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)
+\label{eq:costMin}
+\end{equation}
 
 \Cref{eq:labelingEq} shows the cost details, and \cref{fig:methodTerms} offers an interpretation of the terms found in \cref{eq:labelingEq,fig:method} applied to segmentation of breast tissues in \ac{us} images.
 
