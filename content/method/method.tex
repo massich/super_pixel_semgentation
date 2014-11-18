@@ -18,12 +18,20 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
   \label{eq:labelingEq}
 \end{equation}
 
+The $U(\omega)$ is the combination of two independent cost functions both determined by $\mathcal{S}$, that need to be simultaneously minimized as a whole.
+
 Despite the fact that $\mathcal{S}$ could be any discrete set representing the image, like pixels, overlapping or non overlapping windows, etc.; 
 for this application, the set $\mathcal{S}$ is the super-pixels representation of the image. 
-The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels.
+The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
+\Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 
-The $U(\omega)$, as defined in \cref{eq:labelingEq}, is the combination of two independent cost functions that are simultaneously minimized as a whole. The former term, $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
- The data term is the cost of assigning a particular label $l$ (also denoted $\omega_s$) to the site $s$ based on the image data of $s$, whereas the pairwise or smoothing term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
+In \cref{eq:labelingEq}, the former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
+ The data term is the cost of assigning a particular label $l$ (also denoted $\omega_s$) to the image element (or site) $s$ based on its associated image data.
+To illustrate how the sites contribute to the data term, 
+\Cref{fig:methodTerms:data} illustrates the cost of labl 
+
+ 
+ , whereas the pairwise or smoothing term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
 
 As illustrates \cref{fig:method}, in order to produce a segmentation, the image is \emph{mapped} or represented using \emph{super-pixels}. 
 
