@@ -67,13 +67,17 @@ Further discussion regarding the feature choices can be found in \cref{sec:featu
 
 \subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
  
-The pairwise term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
+The pairwise term corresponds to a \ac{crf} and represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
+The typical form of this term, given in \cref{eq:smoothing}, is called homogenization.
+It acts as a regularization factor favouring configurations that have coherent labelling.
 
-As illustrates \cref{fig:method}, in order to produce a segmentation, the image is \emph{mapped} or represented using \emph{super-pixels}. 
+\cref{fig:methodTerms:boundary} offers a visual interpretation of this cost.
+If the resulting segmentation associated to the current labelling configuration $\omega$ has a boundary, this boundary brings a penalization. 
+In this manner the regularization term can be seen as a post-processing or deionising stage since some sites will flip their labelling if the cost of producing and edge is larger than the cost of adopting the neighbour's label. 
 
-the elements here used 
+It is worth to mention here, that this pairwise term links this segmentation strategy to the family of segmentation methodologies based on optimization using \ac{acm}, such as levelsets.
+On its basic form, the family of \ac{acm} segmentation defines some forces to be applied to an initial contour and this contour evolves by minimizing its length while constrained by the forces properly designed for the task in hand.
 
- The image 
 %
 %according to a labelling set 
 %
