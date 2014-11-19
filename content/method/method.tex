@@ -37,7 +37,7 @@ Both costs are shaped by $\mathcal{s}$, evaluated in $\mathcal{W}$ and need to b
 The former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
 
 \begin{equation}
-  u(\omega) = \sum_{s\in s} d_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{n}_{s}} v_{s,r}(\omega_s,\omega_r)
+  U(\omega) = \sum_{s\in s} D_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)
   \label{eq:labelingeq}
 \end{equation}
 
@@ -49,29 +49,25 @@ for this application, $\mathcal{s}$ is the super-pixels representation of the im
 \Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 Bear in mind, that the ultimate goal given an unseen \ac{bus} image is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
 
+\subsection{Data term} \label{sec:method:dataTerm}
+
 Given a label configuration $\omega \in \mathcal{W}$, the data term penalizes the assignation of a particular label to a particular image element or site ($\omega_s = l$) based on the data associated to $s$. 
-In this manner $D_s(\omega_s=l_\cmark) << D_s(\omega_s=l_{\xmark})$. 
-%To perceive the effect or behaviour of this data term, \cref{fig:methodTerms:data} shows some labelling configurations $\omega^'$ where all the sites share the same label, $\omega' \in \{ \omega_s=l,~\forall s\in\mathcal{S}\}$
+In this manner $D_s(\omega_s=l_\cmark) << D_s(\omega_s=l_\xmark)$. 
+To perceive the effect or behaviour of this data term, \cref{fig:methodTerms:data} shows some labelling configurations $\omega^'$ where all the sites share the same label, $\omega' \in \{ \omega_s=l,~\forall s\in\mathcal{S}\}$
 
-Designing and defining out of the box an obscure heuristic for $D(\cdot)$ that accomplish the desired behaviour, is rather complicated. 
-However \ac{ml} offers a clean an easy manner of generating image or data models based on training samples 
+Designing $D(\cdot)$ that accomplish the desired behaviour by defining an obscure heuristic, is rather complicated. 
+Therefore, an easier and cleaner approach is to take advantage of \ac{ml} techniques. 
+The idea is to generate image or data model for each class, based on training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting how likely is for the site $s$ to belong to class $l$.
+\Cref{fig:method} shows how this is incorporated to the segmentation framework here proposed.
+Each site $s$ is treated as a sample and the features to describe the site are extracted from the original image. 
+For the work here reported, a \ac{svm} classifier is used to determine the data model during the training stage and during testing stage $D_s(\omega_s=l)$ corresponds to the distance between the testing sample and the vector supporting the data model associated to $l$. 
 
-%------------------------------------------------------------------
+Notice that defining $D(\cdot)$ in this manner allows for many designing choices such as: which features to use, how is the class model created: which classifier, which training policy; or, how is defined the relation between the testing sample and the model.
+Further discussion regarding the feature choices can be found in \cref{sec:featuers}, whereas other designing choices regarding \ac{ml} are out of the scope for this work.
 
-the $u(\omega)$ is the combination of two independent cost functions both determined by $\mathcal{s}$, that need to be simultaneously minimized as a whole.
-
-despite the fact that $\mathcal{s}$ could be any discrete set representing the image, like pixels, overlapping or non overlapping windows, etc.; 
-for this application, the set $\mathcal{s}$ is the super-pixels representation of the image. 
-the super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
-%\Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
-
-In \cref{eq:labelingEq}, the former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
- The data term is the cost of assigning a particular label $l$ (also denoted $\omega_s$) to the image element (or site) $s$ based on its associated image data.
-To illustrate how the sites contribute to the data term, 
-\Cref{fig:methodTerms:data} illustrates the cost of labl 
-
+\subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
  
- , whereas the pairwise or smoothing term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
+The pairwise term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
 
 As illustrates \cref{fig:method}, in order to produce a segmentation, the image is \emph{mapped} or represented using \emph{super-pixels}. 
 
