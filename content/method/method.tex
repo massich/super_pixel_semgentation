@@ -32,7 +32,7 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
 Selecting the appropriated strategy to minimize the cost function $U(\omega)$ is part of the designing process since depending on the nature of $U(\cdot)$ and $\mathcal{W}$, not all the minimizing strategies are suitable or desirable.
 
 \Cref{eq:labelingeq} shows the details of the cost function which combines two independent cost.
-Both costs are shaped by $\mathcal{s}$, evaluated in $\mathcal{W}$ and need to be simultaneously minimized as a whole.
+Both costs are shaped by $\mathcal{S}$, evaluated in $\mathcal{W}$ and need to be simultaneously minimized as a whole.
 The former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
 
 \begin{equation}
@@ -70,8 +70,8 @@ The former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while t
     \label{fig:methodterms}
 \end{figure}
 
-Despite the fact that $\mathcal{s}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.), 
-for this application, $\mathcal{s}$ is the super-pixels representation of the image~\cite{achanta2012slic}. 
+Despite the fact that $\mathcal{S}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.), 
+for this application, $\mathcal{S}$ is the super-pixels representation of the image~\cite{achanta2012slic}. 
 %The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
 \Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 Bear in mind, that the ultimate goal given an unseen \ac{bus} image is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
