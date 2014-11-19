@@ -10,6 +10,14 @@ The overall segmentation can be seen as a three steps strategy:
 (2) the optimization stage which is formulated as \emph{metric labelling} problem, 
 and (3) re-mapping or re-coding of the labels obtained from the previous stage to produce the final delineation. 
 
+\begin{figure}[htpb]
+  \centering
+  %\includegraphics[width=0.8\linewidth]{name.ext}
+  \missingfigure{segmentation blocks}
+  \caption{Conceptual block representation of the segmentation methodology}
+  \label{fig:method}
+\end{figure}
+
 In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
 (i.e.\, $l \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
 or $l \in \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
@@ -19,22 +27,43 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
 
 \begin{equation}
 \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)
-\label{eq:costMin}
+\label{eq:costmin}
 \end{equation}
 
-\Cref{eq:labelingEq} shows the cost details, and \cref{fig:methodTerms} offers an interpretation of the terms found in \cref{eq:labelingEq,fig:method} applied to segmentation of breast tissues in \ac{us} images.
+Selecting the appropriated strategy to minimize the cost function $U(\omega)$ is part of the designing process since depending on the nature of $U(\cdot)$ and $\mathcal{W}$, not all the minimizing strategies are suitable or desirable.
+
+\Cref{eq:labelingeq} shows the details of the cost function which combines two independent cost.
+Both costs are shaped by $\mathcal{s}$, evaluated in $\mathcal{W}$ and need to be simultaneously minimized as a whole.
+The former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
 
 \begin{equation}
-  U(\omega) = \sum_{s\in S} D_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)
-  \label{eq:labelingEq}
+  u(\omega) = \sum_{s\in s} d_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{n}_{s}} v_{s,r}(\omega_s,\omega_r)
+  \label{eq:labelingeq}
 \end{equation}
 
-The $U(\omega)$ is the combination of two independent cost functions both determined by $\mathcal{S}$, that need to be simultaneously minimized as a whole.
+\Cref{fig:methodterms} takes the study case of delineating breast tissues in \ac{us} images, to relate \cref{eq:labelingeq,fig:method}, and offer an interpretation their terms and elements. 
 
-Despite the fact that $\mathcal{S}$ could be any discrete set representing the image, like pixels, overlapping or non overlapping windows, etc.; 
-for this application, the set $\mathcal{S}$ is the super-pixels representation of the image. 
-The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
+Despite the fact that $\mathcal{s}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.), 
+for this application, $\mathcal{s}$ is the super-pixels representation of the image~\cite{achanta2012slic}. 
+%The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
 \Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
+Bear in mind, that the ultimate goal given an unseen \ac{bus} image is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
+
+Given a label configuration $\omega \in \mathcal{W}$, the data term penalizes the assignation of a particular label to a particular image element or site ($\omega_s = l$) based on the data associated to $s$. 
+In this manner $D_s(\omega_s=l_\cmark) << D_s(\omega_s=l_{\xmark})$. 
+%To perceive the effect or behaviour of this data term, \cref{fig:methodTerms:data} shows some labelling configurations $\omega^'$ where all the sites share the same label, $\omega' \in \{ \omega_s=l,~\forall s\in\mathcal{S}\}$
+
+Designing and defining out of the box an obscure heuristic for $D(\cdot)$ that accomplish the desired behaviour, is rather complicated. 
+However \ac{ml} offers a clean an easy manner of generating image or data models based on training samples 
+
+%------------------------------------------------------------------
+
+the $u(\omega)$ is the combination of two independent cost functions both determined by $\mathcal{s}$, that need to be simultaneously minimized as a whole.
+
+despite the fact that $\mathcal{s}$ could be any discrete set representing the image, like pixels, overlapping or non overlapping windows, etc.; 
+for this application, the set $\mathcal{s}$ is the super-pixels representation of the image. 
+the super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
+%\Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 
 In \cref{eq:labelingEq}, the former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while the latter, $\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)$, is indistinctly referred to as the \emph{pairwise} or \emph{smoothing} term.
  The data term is the cost of assigning a particular label $l$ (also denoted $\omega_s$) to the image element (or site) $s$ based on its associated image data.
@@ -56,13 +85,6 @@ the elements here used
 %a discrete set of labels need to properly assigned to another discrete set of elemetns constituting the image.
 %
 %
-\begin{figure}[htpb]
-  \centering
-  %\includegraphics[width=0.8\linewidth]{name.ext}
-  \missingfigure{segmentation blocks}
-  \caption{Conceptual block representation of the segmentation methodology}
-  \label{fig:method}
-\end{figure}
 
 %%% Local Variables: 
 %%% mode: latex
