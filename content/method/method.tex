@@ -12,8 +12,7 @@ and (3) re-mapping or re-coding of the labels obtained from the previous stage t
 
 \begin{figure}[htpb]
   \centering
-  %\includegraphics[width=0.8\linewidth]{name.ext}
-  \missingfigure{segmentation blocks}
+  \includegraphics[width=0.9\linewidth]{method}
   \caption{Conceptual block representation of the segmentation methodology}
   \label{fig:method}
 \end{figure}
@@ -42,6 +41,34 @@ The former term $D_s(\omega_s)$, is referred to as the \emph{data} term, while t
 \end{equation}
 
 \Cref{fig:methodterms} takes the study case of delineating breast tissues in \ac{us} images, to relate \cref{eq:labelingeq,fig:method}, and offer an interpretation their terms and elements. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{problem}
+        \caption{{\small Problem definition}}    
+        \label{fig:methodTerms:problem}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.39\textwidth}  
+        \centering 
+        \includegraphics[width=\textwidth]{data}
+        \caption[]%
+        {{\small Data term}}    
+        \label{fig:methodTerms:data}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.39\textwidth}   
+        \centering 
+        \includegraphics[width=\textwidth]{smooth}
+        \caption[]%
+        {{\small Pairwise term \emph{for this term the labels should be patterns and the cost be the only color}}}    
+        \label{fig:methodTerms:boundary}
+    \end{subfigure}
+    \caption {\small Methodology terms interpretation} 
+    \label{fig:methodterms}
+\end{figure}
 
 Despite the fact that $\mathcal{s}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.), 
 for this application, $\mathcal{s}$ is the super-pixels representation of the image~\cite{achanta2012slic}. 
@@ -91,7 +118,7 @@ Further details can be found in \cref{sec:smoothing}.
 Once defined $U(\omega)$ so that the cost for a particular labelling configuration $\omega$ can be computed, the problem of finding $\hat{\omega}$ corresponding to the global minimum of the space $\mathcal{W}$ of all possible labelling configurations needs to be faced. 
 
 This problem falls into the category of \textb{NP-hard} problems. 
-The dimension of the solution space can be expressed as $||\mathcal{W}|| = ||\mathcal{L}||^||\mathcal{S}||$. 
+The dimension of the solution space can be expressed as $||\mathcal{W}|| = ||\mathcal{L}||^{||\mathcal{S}||}$. 
 This means that in order to perform an exhaustive search for a toy example of $20$ sites and two possible labels, the cost function needs to be calculated way more than a million times. 
 More over, due to limitations in building $U(\cdot)$ such as noise, training policies, etc. there are no guarantees that the global minimum $\hat{\omega}$ corresponds to the true labelling.
 
