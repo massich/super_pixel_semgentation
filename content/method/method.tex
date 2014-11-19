@@ -67,14 +67,44 @@ Further discussion regarding the feature choices can be found in \cref{sec:featu
 
 \subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
  
-The pairwise term corresponds to a \ac{crf} and represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
-The typical form of this term, given in \cref{eq:smoothing}, is called homogenization.
-It acts as a regularization factor favouring configurations that have coherent labelling.
+The pairwise term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
+This term models a \ac{mrf} or a \ac{crf}.
+The typical form of this term, given in \cref{eq:smoothing}, is called homogenization which acts as a regularization factor favouring configurations that have coherent labelling.
 
-\cref{fig:methodTerms:boundary} offers a visual interpretation of this cost.
-If the resulting segmentation associated to the current labelling configuration $\omega$ has a boundary, this boundary brings a penalization. 
+\begin{equation}
+V_{s,r}(\omega_s,\omega_r) = 
+\begin{cases}
+    \beta, & \text{if } \omega_s \ne \omega_r\\
+    0,              & \text{otherwise}
+\end{cases}
+\label{eq:smoothing}
+\end{equation}
+
+\Cref{fig:methodTerms:boundary} offers a visual interpretation of this cost.
+If the resulting segmentation associated to the current labelling configuration $\omega$ has a boundary segment, this boundary brings a penalization $\beta$ to the total cost $U(\omega)$.
 In this manner the regularization term can be seen as a post-processing or deionising stage since some sites will flip their labelling if the cost of producing and edge is larger than the cost of adopting the neighbour's label. 
 
+More sophisticated smoothing terms where boundaries contribute have different or variable costs (see \cref{fig:methodTerms:boundary}) are also possible by taking into account not only relations in $\mathcal{S}$ of but also image information (see \cref{fig:method}). 
+Further details can be found in \cref{sec:smoothing}.
+
+\subsection{Searching the best labelling configuration}
+Once defined $U(\omega)$ so that the cost for a particular labelling configuration $\omega$ can be computed, the problem of finding $\hat{\omega}$ corresponding to the global minimum of the space $\mathcal{W}$ of all possible labelling configurations needs to be faced. 
+
+This problem falls into the category of \textb{NP-hard} problems. 
+The dimension of the solution space can be expressed as $||\mathcal{W}|| = ||\mathcal{L}||^||\mathcal{S}||$. 
+This means that in order to perform an exhaustive search for a toy example of $20$ sites and two possible labels, the cost function needs to be calculated way more than a million times. 
+More over, due to limitations in building $U(\cdot)$ such as noise, training policies, etc. there are no guarantees that the global minimum $\hat{\omega}$ corresponds to the true labelling.
+
+Nevertheless, there is a large body of literature proposing methodologies to find suboptimal solutions to the problem trading-off between time of convergence and accuracy of the solution reached.
+Szeliski et al.~\cite{szeliski2008comparative} conducted an exhaustive review in terms of solution quality and runtime of the most common energy minimization algorithms used in \ac{cv}, such as \ac{icm}, \ac{sa} or \ac{gc}.
+
+The minimization strategy used for this work is \ac{gc}. 
+A technique initially introduced to solve \ac{cv} applications by Boykov et al.~\cite{boykov2001fast} that rapidly become the minimization technique of choice for \ac{cv} problems.
+\ac{gc} can only be applied in situations where the pairwise term is designed to favour labelling configurations which are coherent, and to penalize configurations which neighbouring sites do not share labels.
+The fact that \ac{gc} can be applied to our cost function, allows to rapidly find a strong local minima guaranteeing that no other minimum with with lower energy can be found~\cite{delong2012fast}. 
+
+\subsection{Similitude with other optimization techniques}
+\todo{needs reworking}
 It is worth to mention here, that this pairwise term links this segmentation strategy to the family of segmentation methodologies based on optimization using \ac{acm}, such as levelsets.
 On its basic form, the family of \ac{acm} segmentation defines some forces to be applied to an initial contour and this contour evolves by minimizing its length while constrained by the forces properly designed for the task in hand.
 
