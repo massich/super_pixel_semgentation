@@ -2,6 +2,7 @@
 
 # vim
 *.swp
+*.latexmain
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
