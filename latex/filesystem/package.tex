@@ -37,6 +37,42 @@
 
 % Tikz pictures
 \usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+%\usepackage{tikz,xifthen}
+%\usepackage{color}
+%\usepackage{pgfplotstable,booktabs,array,colortbl,siunitx} %thats for loading tables directly... pgfplotstable
+%\usepackage{pstricks}
+%\usetikzlibrary{positioning}
+%\usetikzlibrary{arrows,calc,positioning,fit,backgrounds,snakes,decorations,decorations.text,decorations.markings,shapes,patterns}
+%\usetikzlibrary{decorations.text,decorations.markings,shapes,patterns}
+%\usetikzlibrary{fit}
+%\usetikzlibrary{backgrounds}
+%\usetikzlibrary{snakes}
+
+%%----- To generate stand onle tikz legends
+% argument #1: any options
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+\pgfkeys{/pgfplots/number in legend/.style={%
+        /pgfplots/legend image code/.code={%
+            \node at (0.295,-0.0225){#1};
+        },%
+    },
+}
+%%---- end tikz legends
+
 
 % Clever cross referencing. Using cleverref, instead of writting 
 % figure~\ref{...} or equation~\ref{...}, only \cref{...} is required.
