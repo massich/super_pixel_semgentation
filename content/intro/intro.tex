@@ -7,16 +7,17 @@
 
 Breast cancer is the second most common cancer (1.4 million cases per year, 10.9\% of  diagnosed cancers) after lung cancer, followed by colorectal, stomach, prostate and liver cancers~\cite{Ferlay2010}.
 In terms of mortality, breast cancer is the fifth most common cause of cancer death.
-However, it place as the leading cause of cancer death among females both in western countries and in economically developing countries~\cite{cancerStatistics2011}.
+However, it is ranked as the leading cause of cancer death among females in both western countries and economically developing countries~\cite{cancerStatistics2011}.
 
 Medical imaging plays an important role in breast cancer mortality reduction, contributing to its early detection through screening, diagnosis, image-guided biopsy, treatment follow-up and suchlike procedures~\cite{smith2003american}.
-Although \ac{dm} remains the reference imaging modality, \ac{us} imaging has proven to be a successful adjunct image modality for breast cancer screening~\cite{smith2003american,berg2004diagnostic}, specially as a consequence of the discriminative capabilities that \ac{us} offers for differentiating between solid lesions that are benign or malignant~\cite{Stavros:1995p12392} so that the amount of unnecessary biopsies, which is estimated to be between $65\sim85\%$ of the prescribed biopsies~\cite{yuan2010multimodality}, can be reduced~\cite{ciatto1994contribution} in replacing them by short-term \ac{us} screening follow-up~\cite{gordon1995malignant}.
+Although \ac{dm} remains the reference imaging modality for breast cancer screening, \ac{us} imaging has proven to be a successful adjunct image modality~\cite{smith2003american,berg2004diagnostic}.
+The main advantage of \ac{us} imaging, opposed to other image modalities, is its discriminative power for visually differentiate solid lesions as benign and malignant~\cite{Stavros:1995p12392}.
+\Ac{us} screening contributes to reduce the amount of unnecessary biopsies~\cite{ciatto1994contribution}, which is estimated to be between $65\sim85\%$ of the prescribed biopsies~\cite{yuan2010multimodality}, in favour of a less traumatic short-term \ac{us} screening follow-up~\cite{gordon1995malignant}.
 
-Figure \dots shows \dots what doctors look for. The image needs to be compacted and would be further used to justify the features used.
+For all these reasons, there is a growing interest in the medical community to incorporate \ac{us} screening as part of the standard procedure~\cite{biradsus}, which encourages the development of \ac{cad} systems applied to \ac{bus} images.
 
-Analysing figre \dots it can be observed that most of the markers depend on the lesion delineation.
-Therefore in order to develop releable \ac{cad} systems accurate segmentations to properly delineate the lesions are needed. 
-This article presents a segmentation technique based on classifying superpixels based on their appearance.
+\Cref{fig:lesions} offers a compact, brief and visual idea of breast's structure, their render in a 2D \ac{bus} image, and which markers are recommended to study in order to produce a diagnosis~\cite{biradsus}.\footnote{More details would be present in the final manuscript since the features here used are based those markers.}
+All these markers either describe the lesion's delineation, or describe the relation between the lesion and the surrounding tissue, which also requires a delineation of the lesion to differentiate between the two.
 
 \begin{figure}[htpb]
   \centering
@@ -25,11 +26,17 @@ This article presents a segmentation technique based on classifying superpixels 
   \label{fig:lesions}
 \end{figure}
 
+When radiologists read an image to produce a diagnosis by analysing the markers, there is no need for an explicit delineation of the tissues or lesions present in the image since this is intrinsic to the reading process.
+However, developing accurate segmentation methodologies breast lesions and structures is crucial for developing \ac{cad} systems.
+
 %Regardless of the clinical utility of the \ac{us} images, such image modality suffers from different inconveniences due to strong noise natural of \ac{us} imaging  and the presence of strong \ac{us} artifacts, both degrading the overall image quality~\cite{Ensminger:2008p6920} which compromise the performance of the radiologists.
 %Radiologists infer health state of the patients based on visual inspection of images which by means of some screening technique (e.g.~\ac{us}) depict physical properties of the screened body.
 %The radiologic diagnosis error rates are similar to those found in any other tasks requiring human visual inspection, and such errors, are subject to the quality of the images and the ability of the reader to interpret the physical properties depicted on them\cite{manning2005perception}.
 %
 %Therefore the interest from the medical imaging community, also for the specific case of breast lesion assessment using \ac{us} data, in developing \ac{cad} systems that provide better instrumentation to improve image interpretation, and consequently achieve better diagnosis.
+
+This article proposes a highly modular and flexible framework for segmenting lesions and tissues present in \ac{bus} images.
+The proposal takes advantage of an energy-based strategy to perform segmentations based on discrete optimization using super-pixels and set of novel features analogous to the elements present in \cref{fig:lesions}.
 
 %%% Local Variables: 
 %%% mode: latex
