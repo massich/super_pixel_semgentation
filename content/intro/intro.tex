@@ -21,14 +21,14 @@ All these markers either describe the lesion's delineation, or describe the rela
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.2\textwidth}
+    \begin{subfigure}[b]{0.28\textwidth}
         \centering
         \includegraphics[width=\textwidth]{breast}
         \caption{{\small Breast structure}}    
         \label{fig:lesions:breast}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.2\textwidth}  
+    \begin{subfigure}[b]{0.25\textwidth}  
         \centering 
         \includegraphics[width=\textwidth]{slice}
         \caption[]%
@@ -36,22 +36,9 @@ All these markers either describe the lesion's delineation, or describe the rela
         \label{fig:lesions:slice}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.5\textwidth}   
+    \begin{subfigure}[b]{0.4\textwidth}   
         \centering 
-        \begin{tikzpicture}[scale=1]
-          \foreach \imgName [count=\i] in {oval, circle, micro}
-            \node[inner sep=0pt] {\includegraphics[height=.1cm]{\x}};
-          
-          % Example code snipped from http://tex.stackexchange.com/questions/61805/tikz-using-loop-to-draw-grid-of-nodes
-          %\foreach \x in {0,...,4}
-          %\foreach \y in {0,...,4} 
-          %{\pgfmathtruncatemacro{\label}{\x - 5 *  \y +21}
-          %  \node [darkstyle]  (\x\y) at (1.5*\x,1.5*\y) {\label};} 
-
-          %\foreach \x in {0,...,4}
-          %\foreach \y [count=\yi] in {0,...,3}  
-          %\draw (\x\y)--(\x\yi) (\y\x)--(\yi\x) ;
-        \end{tikzpicture}
+        \includegraphics[trim = 65 345 200 124, clip,width=\textwidth]{birads}
         \caption[]%
         {Breast lesion characteristics in \ac{us} screening influencing clinical management~\cite{raza2010us}}    
         \label{fig:lesions:lesions}
@@ -70,7 +57,7 @@ However, developing accurate segmentation methodologies breast lesions and struc
 %Therefore the interest from the medical imaging community, also for the specific case of breast lesion assessment using \ac{us} data, in developing \ac{cad} systems that provide better instrumentation to improve image interpretation, and consequently achieve better diagnosis.
 
 This article proposes a highly modular and flexible framework for segmenting lesions and tissues present in \ac{bus} images.
-The proposal takes advantage of an energy-based strategy to perform segmentations based on discrete optimization using super-pixels and set of novel features analogous to the elements present in \cref{fig:lesions}.
+The proposal takes advantage of an energy-based strategy to perform segmentations based on discrete optimization using super-pixels and a set of novel features analogous to the elements present in \cref{fig:lesions}.
 
 %%% Local Variables: 
 %%% mode: latex
