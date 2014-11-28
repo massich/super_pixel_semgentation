@@ -19,11 +19,45 @@ For all these reasons, there is a growing interest in the medical community to i
 \Cref{fig:lesions} offers a compact, brief and visual idea of breast's structure, their render in a 2D \ac{bus} image, and which markers are recommended to study in order to produce a diagnosis~\cite{biradsus}.\footnote{More details would be present in the final manuscript since the features here used are based those markers.}
 All these markers either describe the lesion's delineation, or describe the relation between the lesion and the surrounding tissue, which also requires a delineation of the lesion to differentiate between the two.
 
-\begin{figure}[htpb]
-  \centering
-  \includegraphics[width=0.9\linewidth]{doc}
-  \caption{Visual compilation of breast lesions characteristics}
-  \label{fig:lesions}
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{breast}
+        \caption{{\small Breast structure}}    
+        \label{fig:lesions:breast}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.2\textwidth}  
+        \centering 
+        \includegraphics[width=\textwidth]{slice}
+        \caption[]%
+        {{\small Breast structure location when \ac{us}screening}}
+        \label{fig:lesions:slice}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.5\textwidth}   
+        \centering 
+        \begin{tikzpicture}[scale=1]
+          \foreach \imgName [count=\i] in {oval, circle, micro}
+            \node[inner sep=0pt] {\includegraphics[height=.1cm]{\x}};
+          
+          % Example code snipped from http://tex.stackexchange.com/questions/61805/tikz-using-loop-to-draw-grid-of-nodes
+          %\foreach \x in {0,...,4}
+          %\foreach \y in {0,...,4} 
+          %{\pgfmathtruncatemacro{\label}{\x - 5 *  \y +21}
+          %  \node [darkstyle]  (\x\y) at (1.5*\x,1.5*\y) {\label};} 
+
+          %\foreach \x in {0,...,4}
+          %\foreach \y [count=\yi] in {0,...,3}  
+          %\draw (\x\y)--(\x\yi) (\y\x)--(\yi\x) ;
+        \end{tikzpicture}
+        \caption[]%
+        {Breast lesion characteristics in \ac{us} screening influencing clinical management~\cite{raza2010us}}    
+        \label{fig:lesions:lesions}
+    \end{subfigure}
+    \caption {{\small Visual reference of breast structures and visual cues used for standard \ac{bus} image assessment and diagnosis.}} 
+    \label{fig:lesions}
 \end{figure}
 
 When radiologists read an image to produce a diagnosis by analysing the markers, there is no need for an explicit delineation of the tissues or lesions present in the image since this is intrinsic to the reading process.
