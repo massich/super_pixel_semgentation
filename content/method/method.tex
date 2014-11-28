@@ -8,7 +8,7 @@ Optimization methodologies offer a standardized manner to approach segmentation 
 The overall segmentation can be seen as a three-step strategy: 
 (1) a mapping or encoding of the image into a discrete set of elements $\mathcal{S}$, 
 (2) the optimization stage which is formulated as \emph{metric labelling} problem, 
-and (3) re-mapping the labels obtained from the previous stage to produce the final delineation. 
+and (3) re-mapping or decoding the labels obtained from the previous stage to produce the final delineation. 
 
 \begin{figure}[htpb]
   \centering
@@ -20,7 +20,7 @@ and (3) re-mapping the labels obtained from the previous stage to produce the fi
 In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
 (i.e.\, $l \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
 or $l \in \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
-Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$; and, let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some desig constraints.
+Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$; and, let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some designed constraints.
 Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimize this cost function, as described in \cref{eq:costMin}.
 
 \begin{equation}
@@ -28,7 +28,7 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
 \label{eq:costMin}
 \end{equation}
 
-The nature of $U(\cdot)$ and $\mathcal{W}$ dictates which minimization strategies should be applied to find $\hat{\omega}$ sine not every strategy is suitable or desirable.
+The nature of $U(\cdot)$ and $\mathcal{W}$ dictates which minimization strategies should be applied to find $\hat{\omega}$ since that not every strategy is suitable or desirable.
 
 \Cref{eq:labelingeq} determines this cost function as the combination of two independent costs that need to be simultaneously minimized as a whole.
 The left hand side of the expression integrates the so called \emph{data} term, while the right hand side integrates the \emph{pairwise} term, which is also referred as the \emph{smoothing} term.
@@ -39,7 +39,7 @@ Both terms are shaped by $\mathcal{S}$ and evaluated in $\mathcal{W}$.
   \label{eq:labelingeq}
 \end{equation}
 
-\Cref{fig:methodterms} illustrates the terms and elements relating the framework's outline, presented in \cref{fig:method}, with its formulation in \cref{eq:labelingeq}.
+\Cref{fig:methodterms} illustrates the terms and elements relating the framework outline, presented in \cref{fig:method}, with its formulation in \cref{eq:labelingeq}.
 The problem of delineating the tissues present in \ac{bus} image has been used here for this illustrative purposes. 
 
 \begin{figure}
@@ -70,12 +70,12 @@ The problem of delineating the tissues present in \ac{bus} image has been used h
 \end{figure}
 
 In general, $\mathcal{S}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.). 
-For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the image~\cite{achanta2012slic}, though. 
+For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the image~\cite{achanta2012slic}. 
 % Good % The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
-\Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
+\Cref{fig:methodTerms:problem} shows a \ac{bus} image example and its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 
 Bear in mind that given an unseen \ac{bus} image, the ultimate goal is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
-To do so using the strategy here proposed, it requires to define: a data term, a pairwise term, and a proper minimization methodology.
+To do so, using the strategy here proposed, it is required to define: a data term, a pairwise term, and a proper minimization methodology.
 
 \subsection{Data term} \label{sec:method:dataTerm}
 
@@ -86,7 +86,7 @@ To perceive the effect or behaviour of this data term, \cref{fig:methodTerms:dat
 
 Designing $D(\cdot)$ that accomplish the desired behaviour by defining an obscure heuristic, is rather complicated task to achieve out of the box. 
 Therefore, an easier and cleaner approach is to take advantage of \ac{ml} techniques to design this data cost in a systematic manner based on a training stage. 
-The idea is to generate image or data model for each class from training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting the likelihood for $s$ to to belong to class $l$.
+The idea is to generate image or data model for each class from training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting the likelihood of $s$ to belong to class $l$.
 Defining the data term in this manner allows for great flexibility while offering a systematic approach towards its design.  
 $D(\cdot)$ is fully customizable through the features, through the construction of the model where several classifiers and training techniques can be applied; or through definition of the relation between the testing sample and the data models. 
 
@@ -97,7 +97,7 @@ During testing stage $D_s(\omega_s=l)$ corresponds to the distance between the t
 
 %Further discussion regarding the feature choices can be found in \cref{sec:featuers}, whereas other designing choices regarding \ac{ml} are out of the scope for this work.
 
-The final manuscript has a section dedicated to describe and analyse the features designed for \ac{bus} images based in \cref{fig:lesions}. Other analysis regarding the \ac{ml} stage are out of the study here presented.
+The final manuscript has a section dedicated to describe and analyse the features designed for \ac{bus} images based on \cref{fig:lesions}. Other analysis regarding the \ac{ml} stage are out of the study here presented.
 
 \subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
  
@@ -116,7 +116,7 @@ V_{s,r}(\omega_s,\omega_r) =
 
 \Cref{fig:methodTerms:boundary} offers a visual interpretation of this cost.
 If the resulting segmentation associated to the current labelling configuration $\omega$ has a boundary segment, this boundary brings a penalization $\beta$ to the total cost $U(\omega)$.
-In this manner the regularization term can be seen as a post-processing or denoising stage since some sites will flip their labelling if the cost of producing and edge is larger than the cost of adopting the neighbour's label. 
+In this manner the regularization term can be seen as a post-processing or denoising stage since some sites will flip their labelling if the cost of producing an edge is larger than the cost of adopting the neighbour's label. 
 
 More sophisticated smoothing terms where boundaries have different penalization based not only on site relations in $\mathcal{S}$ but also based on image information would (see \cref{fig:methodTerms:boundary}) be found in the final version of the manuscript.% in \cref{sec:smoothing}.
 
@@ -134,11 +134,11 @@ More over, due to limitations in building $U(\cdot)$ such as noise, training pol
 Nevertheless, there is a large body of literature proposing methodologies to find suboptimal solutions to the problem trading-off between time of convergence and accuracy of the solution reached.
 Szeliski et al.~\cite{szeliski2008comparative} conducted an exhaustive review in terms of solution quality and runtime of the most common energy minimization algorithms used in \ac{cv}, such as \ac{icm}, \ac{sa} or \ac{gc}.
 
-The minimization strategy used for this work is \ac{gc}. 
+The minimization strategy used in this work is \ac{gc}. 
 This technique was initially introduced to solve \ac{cv} applications by Boykov et al.~\cite{boykov2001fast}.
-Soon after its introduction, it become the minimization technique of choice for \ac{cv} problems.
-Since, when \ac{gc} is applicable, it allows to rapidly find a strong local minima guaranteeing that no other minimum with with lower energy can be found~\cite{delong2012fast}. 
-\ac{gc} is applicable if, and only if, the pairwise term favours coherent labelling configurations and penalizes labelling configurations where neighbours labels differs. 
+Soon after its introduction, it becomes the minimization technique of choice for \ac{cv} problems.
+Since, when \ac{gc} is applicable, it allows to rapidly find a strong local minima guaranteeing that no other minimum with lower energy can be found~\cite{delong2012fast}. 
+\ac{gc} is applicable if, and only if, the pairwise term favours coherent labelling configurations and penalizes labelling configurations where neighbour labels differs. 
 Such is our case, given \cref{eq:smoothing}.
 
 % Good % \subsection{Similitude with other optimization techniques}
