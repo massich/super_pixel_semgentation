@@ -20,7 +20,8 @@ and (3) re-mapping the labels obtained from the previous stage to produce the fi
 In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
 (i.e.\, $l \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
 or $l \in \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
-Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$ given $\mathcal{L}$; and, let $U(\cdot)$ be a cost function encoding how good is a labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some desig constraints.
+Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$, given $\mathcal{L}$.
+Let $U(\cdot)$ be a cost function encoding the goodness of the labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some designing constraints.
 Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimize this cost function, as described in \cref{eq:costMin}.
 
 \begin{equation}
@@ -28,11 +29,12 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
 \label{eq:costMin}
 \end{equation}
 
-The nature of $U(\cdot)$ and $\mathcal{W}$ dictates which minimization strategies should be applied to find $\hat{\omega}$ sine not every strategy is suitable or desirable.
+The nature of $U(\cdot)$ and $\mathcal{W}$ determines which minimization strategies are applicable (or more desirable) in order to find $\hat{\omega}$; and which minimization strategies are not.
 
-\Cref{eq:labelingeq} determines this cost function as the combination of two independent costs that need to be simultaneously minimized as a whole.
+This goodness measure $U(\cdot)$ must be defined to take into account the appearance of the target region, its relation with other regions and other designing constrains.
+\Cref{eq:labelingeq} describes this cost function as the combination of two independent costs that need to be simultaneously minimized as a whole.
 The left hand side of the expression integrates the so called \emph{data} term, while the right hand side integrates the \emph{pairwise} term, which is also referred as the \emph{smoothing} term.
-Both terms are shaped by $\mathcal{S}$ and evaluated in $\mathcal{W}$.
+Both terms are shaped by $\mathcal{S}$ and evaluated in the labelling space $\mathcal{W}$.
 
 \begin{equation}
   U(\omega) = \sum_{s\in s} D_s(\omega_s) + \sum_{s}\sum_{r \in \mathcal{N}_{s}} V_{s,r}(\omega_s,\omega_r)
@@ -70,9 +72,11 @@ The problem of delineating the tissues present in \ac{bus} image has been used h
 \end{figure}
 
 In general, $\mathcal{S}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.). 
-For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the image~\cite{achanta2012slic}, though. 
-% Good % The super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
+For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the image.
+Super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
 \Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
+
+For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels resulting from over-segmentation of the image using Quick-shift (see~\cite{sikphd} for details). 
 
 Bear in mind that given an unseen \ac{bus} image, the ultimate goal is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
 To do so using the strategy here proposed, it requires to define: a data term, a pairwise term, and a proper minimization methodology.
@@ -82,22 +86,49 @@ To do so using the strategy here proposed, it requires to define: a data term, a
 Given a label configuration $\omega \in \mathcal{W}$, the data term penalizes the 
 labelling of a particular image element or site ($\omega_s = l$) based on the data associated to $s$. 
 In this manner $D_s(\omega_s=l_\cmark) << D_s(\omega_s=l_\xmark)$. 
-To perceive the effect or behaviour of this data term, \cref{fig:methodTerms:data} shows some labelling configurations $\omega'$ where all the sites share the same label, $\omega' \in \{ \omega_s=l,~\forall s\in\mathcal{S}\}$
+\cref{fig:methodTerms:data} shows some labelling configurations $\omega'$ where all the sites share the same label, $\omega' \in \{ \omega_s=l,~\forall s\in\mathcal{S}\}$ to illustrate the effect (or behaviour) of this data term.
+On it, the labelling preference of each site based on its appearance can be easily observed when comparing this labelling configurations.
 
-Designing $D(\cdot)$ that accomplish the desired behaviour by defining an obscure heuristic, is rather complicated task to achieve out of the box. 
+Designing an obscure heuristic to comply with the desired behaviour of $D(\cdot)$ out of the box, is rather a complicated task.
 Therefore, an easier and cleaner approach is to take advantage of \ac{ml} techniques to design this data cost in a systematic manner based on a training stage. 
-The idea is to generate image or data model for each class from training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting the likelihood for $s$ to to belong to class $l$.
+The idea is to generate a data model for each class from training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting the likelihood for $s$ to to belong to class $l$.
 Defining the data term in this manner allows for great flexibility while offering a systematic approach towards its design.  
-$D(\cdot)$ is fully customizable through the features, through the construction of the model where several classifiers and training techniques can be applied; or through definition of the relation between the testing sample and the data models. 
+Using \ac{ml} to define $D(\cdot)$ allows for customizing the features to represent the data, allows for customizing the construction of the model where several classifiers and training techniques can be applied; or even to include some arbitrary constrains.
 
-This type of data term is incorporated to our framework as represented at the upper side of the diagram in \cref{fig:method}.
-Each site $s$ is treated as a sample and the features to describe it are extracted from the original image. 
-For the work here reported, a \ac{svm} classifier is used to determine the data model during the training stage.
-During testing stage $D_s(\omega_s=l)$ corresponds to the distance between the testing sample and the model associated to $l$ as the \ac{svm} classification reward. 
+Despite the fact that construction details of $D(\cdot)$ are out of the scope of this report, the rest of this~\cref{sec:method:dataTerm} summarizes the process whereas further details can be found at~\citeauthor{sikphd}.
+The usage of \ac{ml} as part of the proposed framework to determine $D(\cdot)$ is represented at the upper side of the diagram in~\cref{fig:method},
+where two main blocks allow for design: 
+(a) the features to represent the samples,
+and (b) the tools to encode $D(\cdot)$ based on the features and the training. 
 
-%Further discussion regarding the feature choices can be found in \cref{sec:featuers}, whereas other designing choices regarding \ac{ml} are out of the scope for this work.
+\subsubsection{Data term features}
+\Cref{fig:features:lexicon} illustrates the \ac{birads} lexicon: a standardized description of the visual cues found in \ac{bus} images, widely used by radiologists to produce a diagnosis based on the image readings. 
 
-The final manuscript has a section dedicated to describe and analyse the features designed for \ac{bus} images based in \cref{fig:lesions}. Other analysis regarding the \ac{ml} stage are out of the study here presented.
+\Cref{fig:features} relates the \ac{birads} lexicon for describing \ac{bus} images~\cite{biradsus}, with the features designed to build $D(\cdot)$.
+
+The following features are extracted to describe the sample $s$:
+\begin{description}
+  \item[Appearance] 
+    Based on the multi-labelled \ac{gt}, a \ac{mad} histogram model for every tissue label is build. The Appearance feature is computed as the \ac{qc} distance between histogram of $s$ and the models.
+  \item[Atlas] 
+    Based on the multi-labelled \ac{gt} an atlas is build to encode the label likelihood based on the location of $s$.
+  \item[Brightness] 
+    Takes an intensity descriptor of $s$ (\emph{i.e:} mean, median, mode) and compares it with some intensity markers of the set $\mathcal{S}$ such as the minimum intensity value, the maximum, its mean, etc.
+  \item[\ac{sift}-\ac{bof}]
+    $s$ is represented as the occurrences of a \ac{sift} dictionary of 36 words~\cite{siksift}.
+\end{description}
+
+In order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor. This operation can be repeated several times.
+
+\Cref{fig:features} relates the lexicon widely used by the radiologists for describing \ac{bus} images~\cite{biradsus}, with the features designed to build $D(\cdot)$.
+\emph{Mass shape}, \emph{Mass orientation}, and \emph{Mass margin} are in not encoded in $D(\cdot)$ since this visual cues do not belong to a single super-pixel but to the group of contiguous super-pixels sharing the same label. 
+Otherwise lesions and super-pixels should be elements of same order.
+This is not the case since the bottom-line is to label small regions to from the segmentation.
+For similar reasons, the \emph{Lesion boundary} cue has been left out of the data term.
+In order to take the echogenic halo into account as a super-pixel appearance, those should be small enough to be contained within the halo limiting the high-level region description allowed by larger super-pixels.
+
+
+
 
 \subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
  
