@@ -171,6 +171,8 @@ In this manner the B.Echo-texture, is mainly encoded by the SIFT-BoF but also th
 Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings in crucial information to compensate for intensity inhomogeneities caused signal attenuation present in the more posterior parts of the image.The Echo Pattern cue, encodes the echoginity of a region with respect to the adipose tissue. This can be found at the anterior part of the image and its echoginity is close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
 
 \subsubsection{The data term construction}
+For the work here reported, a \ac{svm} classifier is used to determine the data model during the training stage.
+During testing stage $D_s(\omega_s=l)$ corresponds to the distance between the testing sample and the model associated to $l$ as the \ac{svm} classification reward. 
 
 \subsection{The pairwise (or smoothing) term} \label{sec:method:mrfTerm}
  
