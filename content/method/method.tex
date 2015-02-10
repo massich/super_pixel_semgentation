@@ -1,7 +1,7 @@
 % include the figures path relative to the master file
 \graphicspath{ {./content/method/figures/} {./content/intro/figures/} }
 
-\section{Segmentation methodology description} 
+\section{Description of the segmentation methodology} 
 
 Optimization methodologies offer a standardized manner to approach segmentation by minimizing an application-driven cost function~\cite{cremers2007review}.
 \Cref{fig:method} illustrates a generic representation of the segmentation strategy here adopted to delineate breast tissues or lesions in \ac{us} images. 
@@ -81,7 +81,7 @@ For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels re
 Bear in mind that given an unseen \ac{bus} image, the ultimate goal is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
 To do so using the strategy here proposed, it requires to define: a data term, a pairwise term, and a proper minimization methodology.
 
-\subsection{Data term} \label{sec:method:dataTerm}
+\subsection{The data term} \label{sec:method:dataTerm}
 
 Given a label configuration $\omega \in \mathcal{W}$, the data term penalizes the 
 labelling of a particular image element or site ($\omega_s = l$) based on the data associated to $s$. 
@@ -102,12 +102,20 @@ where two main blocks allow for design:
 (a) the features to represent the samples,
 and (b) the tools to encode $D(\cdot)$ based on the features and the training. 
 
-\subsubsection{\ac{bus} features to build the data term}
-\Cref{fig:features:lexicon} illustrates the \ac{birads} lexicon: a standardized description of the visual cues found in \ac{bus} images, widely used by radiologists to produce a diagnosis based on the image readings. 
+\subsubsection{\ac{bus} features to build the data term} \label{sec:method:dterm:feat}
+\Cref{fig:features} is a three-parts illustration to graphically summarize the visual cues that can be found in \ac{bus} images.
+\Cref{fig:features:breast} shows the structures present in the breast and how these are imaginary rendered using a hand-held 2D \ac{us} probe.
+\Cref{fig:features:lexicon} illustrates the lexicon proposed by the \ac{acr}~\cite{biradsus}.
+\emph{And \cref{fig:features:relation}, illustrates which visual cue exploided by the lexion was targeted by the data term features proposed in Massich et al.~\cite{massich2013phd}.}
+Notice that not all the visual cues used 'composing' the lexicon are suitable to build the data term.
+Mass shape, orientation and margin cues do not characterize individual super-pixels but a group of contiguous super-pixels sharing the same label.
+Characterising supper pixels in those terms imply that super-pixels should be image elements of the same order as the lesions. 
+This is not the case, since the bottom-line is to aggregate small regions to form the segmentation.
+The lesion boundary cue falls at the other extreme.
+To encode this visual cue as data term feature implies to use smaller super-pixels in order to be fully contained within the halo, limiting the discriminatory power of other features that need larger regions to build higher-level descriptors.
+%These cues are more suitable for \ac{cade} stages. 
 
-\Cref{fig:features} relates the \ac{birads} lexicon and the features designed to build $D(\cdot)$.
-
-The following features are extracted to describe the sample $s$:
+Massich et al.~\cite{massich2013phd} reported that the features in \cref{fig:features:relation} extracted to describe the sample $s$ correspond to the following:
 \begin{description}
   \item[Appearance] 
     Based on the multi-labelled \ac{gt}, a \ac{mad} histogram model for every tissue label is build. The Appearance feature is computed as the \ac{qc} distance between histogram of $s$ and the models.
@@ -119,14 +127,7 @@ The following features are extracted to describe the sample $s$:
     $s$ is represented as the occurrences of a \ac{sift} dictionary of 36 words~\cite{massich2014sift}.
 \end{description}
 
-In order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor. This operation can be repeated several times.
-
-\emph{Mass shape}, \emph{Mass orientation}, and \emph{Mass margin} are in not encoded in $D(\cdot)$ since this visual cues do not belong to a single super-pixel but to the group of contiguous super-pixels sharing the same label. 
-Otherwise lesions and super-pixels should be elements of same order.
-This is not the case since the bottom-line is to label small regions to from the segmentation.
-For similar reasons, the \emph{Lesion boundary} cue has been left out of the data term.
-In order to take the echogenic halo into account as a super-pixel appearance, those should be small enough to be contained within the halo limiting the high-level region description allowed by larger super-pixels.
-
+Massich et al.~\cite{massich2013phd} also reports that in order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor. This operation can be repeated several times.
 
 \begin{figure}
     \centering
@@ -166,8 +167,12 @@ In order to take the echogenic halo into account as a super-pixel appearance, th
     \label{fig:features}
 \end{figure}
 
+In this manner the B.Echo-texture, is mainly encoded by the SIFT-BoF but also through the Appearance feature since elements would have the same model.
+Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings in crucial information to compensate for intensity inhomogeneities caused signal attenuation present in the more posterior parts of the image.The Echo Pattern cue, encodes the echoginity of a region with respect to the adipose tissue. This can be found at the anterior part of the image and its echoginity is close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
 
-\subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
+\subsubsection{The data term construction}
+
+\subsection{The pairwise (or smoothing) term} \label{sec:method:mrfTerm}
  
 The pairwise term represents the cost of the assignation $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
 This term models a \ac{mrf} or a \ac{crf}.
