@@ -1,5 +1,5 @@
 % include the figures path relative to the master file
-\graphicspath{ {./content/method/figures/} }
+\graphicspath{ {./content/method/figures/} {./content/intro/figures/} }
 
 \section{Segmentation methodology description} 
 
@@ -76,7 +76,7 @@ For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the
 Super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
 \Cref{fig:methodTerms:problem} shows a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
 
-For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels resulting from over-segmentation of the image using Quick-shift (see~\cite{sikphd} for details). 
+For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels resulting from over-segmentation of the image using Quick-shift (see~\cite{massich2013phd} for details). 
 
 Bear in mind that given an unseen \ac{bus} image, the ultimate goal is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
 To do so using the strategy here proposed, it requires to define: a data term, a pairwise term, and a proper minimization methodology.
@@ -95,16 +95,17 @@ The idea is to generate a data model for each class from training samples, and l
 Defining the data term in this manner allows for great flexibility while offering a systematic approach towards its design.  
 Using \ac{ml} to define $D(\cdot)$ allows for customizing the features to represent the data, allows for customizing the construction of the model where several classifiers and training techniques can be applied; or even to include some arbitrary constrains.
 
-Despite the fact that construction details of $D(\cdot)$ are out of the scope of this report, the rest of this~\cref{sec:method:dataTerm} summarizes the process whereas further details can be found at~\citeauthor{sikphd}.
+Despite regarding the construction $D(\cdot)$ are out of the scope of this report, the rest of this~\cref{sec:method:dataTerm} summarizes the process.
+For further details the reader is referred to Massich et al.~\cite{massich2013phd}.
 The usage of \ac{ml} as part of the proposed framework to determine $D(\cdot)$ is represented at the upper side of the diagram in~\cref{fig:method},
 where two main blocks allow for design: 
 (a) the features to represent the samples,
 and (b) the tools to encode $D(\cdot)$ based on the features and the training. 
 
-\subsubsection{Data term features}
+\subsubsection{\ac{bus} features to build the data term}
 \Cref{fig:features:lexicon} illustrates the \ac{birads} lexicon: a standardized description of the visual cues found in \ac{bus} images, widely used by radiologists to produce a diagnosis based on the image readings. 
 
-\Cref{fig:features} relates the \ac{birads} lexicon for describing \ac{bus} images~\cite{biradsus}, with the features designed to build $D(\cdot)$.
+\Cref{fig:features} relates the \ac{birads} lexicon and the features designed to build $D(\cdot)$.
 
 The following features are extracted to describe the sample $s$:
 \begin{description}
@@ -115,12 +116,11 @@ The following features are extracted to describe the sample $s$:
   \item[Brightness] 
     Takes an intensity descriptor of $s$ (\emph{i.e:} mean, median, mode) and compares it with some intensity markers of the set $\mathcal{S}$ such as the minimum intensity value, the maximum, its mean, etc.
   \item[\ac{sift}-\ac{bof}]
-    $s$ is represented as the occurrences of a \ac{sift} dictionary of 36 words~\cite{siksift}.
+    $s$ is represented as the occurrences of a \ac{sift} dictionary of 36 words~\cite{massich2014sift}.
 \end{description}
 
 In order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor. This operation can be repeated several times.
 
-\Cref{fig:features} relates the lexicon widely used by the radiologists for describing \ac{bus} images~\cite{biradsus}, with the features designed to build $D(\cdot)$.
 \emph{Mass shape}, \emph{Mass orientation}, and \emph{Mass margin} are in not encoded in $D(\cdot)$ since this visual cues do not belong to a single super-pixel but to the group of contiguous super-pixels sharing the same label. 
 Otherwise lesions and super-pixels should be elements of same order.
 This is not the case since the bottom-line is to label small regions to from the segmentation.
@@ -128,6 +128,43 @@ For similar reasons, the \emph{Lesion boundary} cue has been left out of the dat
 In order to take the echogenic halo into account as a super-pixel appearance, those should be small enough to be contained within the halo limiting the high-level region description allowed by larger super-pixels.
 
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.28\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{breast}
+        \includegraphics[width=0.5\textwidth]{slice}
+        \caption{{\small Breast structure}}    
+        \label{fig:features:breast}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}   
+        \centering 
+        \includegraphics[trim = 65 345 200 124, clip,width=\textwidth]{birads}
+        \caption[]%
+        {Breast lesion characteristics in \ac{us} screening influencing clinical management~\cite{raza2010us}}    
+        \label{fig:features:lexicon}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{\textwidth}
+      \centering
+      \begin{tabular}{lcccccccc}
+                  &Background Echo-Texture  
+                  &Posterior  %Acoustic Posterior
+                  &L.Boundary %Lesion Boundary
+                  &M.Orient.  %Mass Orientation        
+                  &M.Margin   %Mass Margin      
+                  &M.Shape    %Mass Shape      
+                  &E.Pattern\\%Echo Pattern\\
+       Appearance & x &   &  &  &  &  & x & \\
+       Atlas      &   & x &  &  &  &  & x & \\
+       Brightness &   & x &  &  &  &  & x & \\
+       SIFT-BoF   & x &   &  &  &  &  &   & \\
+      \end{tabular}
+    \end{subfigure}
+    \caption {{\small Visual reference of breast structures and visual cues used for standard \ac{bus} image assessment and diagnosis.}} 
+    \label{fig:features}
+\end{figure}
 
 
 \subsection{Pairwise or smoothing term} \label{sec:method:mrfTerm}
