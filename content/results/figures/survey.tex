@@ -20,23 +20,7 @@
   \newcommand{\fullyGuidedColor}{(dark-green)}
   \definecolor{colorTheme}{RGB}{0 0 0 }
 
-  \def\labels{	
-    {\color{semiAuto}   c\cite{AlemanFlores:2007p14310}},
-    {\color{semiAuto}   b\cite{Gao:2012p14336}},
-    {\color{fullyAuto}  a\cite{Liu:2010p14328}},
-    {\color{semiAuto}   p\cite{Cui:2009p14325}},					
-    {\color{autoGuided} o\cite{Huang:2007p6100}},
-    {\color{fullyAuto}  n\cite{Huang:2005p11636}},
-    {\color{semiAuto}   m\cite{Gomez:2010p14339}},
-    {\color{semiAuto}   l\cite{Horsch:2001p6028}},
-    {\color{fullyAuto}  k\cite{Yeh:2009p11985}},
-    {\color{autoGuided} j\cite{Shan:2012p14347}},
-    {\color{autoGuided} i\cite{massich2010lesion}},
-    {\color{semiAuto}   h\cite{Xiao:2002p5639,gerard2013}},
-    {\color{autoGuided} g\cite{Zhang:2010p14317}},
-    {\color{fullyAuto}  f\cite{hao2012combining}},
-    {\color{autoGuided} e\cite{Madabhushi:2003p6036}},
-    {\color{fullyAuto}  d\cite{Huang:2012p14313}}}
+  \def\labels{ c, b, a, p, o, n, m, l, k, j, i, h, g, f, e, d}
   
   \def\reward{88.3,86.3,88.1,74.5,77.6,78.6,85.0,73.0,73.3,83.1,64.0,54.9,84.0,75.0,62.0,85.2}
   \def\dbSize{32,20,76,488,118,20,50,400,6,120,25,352,347,480,42,20}
@@ -83,11 +67,11 @@
   {
     \pgfmathsetmacro\cAngle{{(\ni*(360/\nbeams))+\globalRotation}}
     \pgfmathsetmacro\nreward{\aux[\ni-1]}
-    \draw (\cAngle:{\cZoom*1.4}) node[align=center] {{\color{blue}\nreward $\%$} \\ {\color{red}\n} };
+%    \draw (\cAngle:{\cZoom*1.4}) node[align=center] {{\color{blue}\nreward $\%$} \\ {\color{red}\n} };
   } ;
 
   % draw the database rose
-  \def\dbScale{\9}
+  \def\dbScale{\09}
   \foreach \n [count=\ni] in \dbClass
   \filldraw[fill=red!20!white, draw=red!50!black]
   (0,0) -- ({\ni*(360/\nbeams)-\halfAngle+\globalRotation}:{\cZoom*\n/9}) arc ({\ni*(360/\nbeams)-\halfAngle+\globalRotation}:{\ni*(360/\nbeams)+\halfAngle+\globalRotation}:{\cZoom*\n/9}) -- cycle;
@@ -107,10 +91,10 @@
 
     \pgfmathsetmacro\initialAngle{(\contadorQueNoSeCalcular*\beamAngle)+\halfAngle+\globalRotation}
     \pgfmathsetmacro\finalAngle  {((\numElm+\contadorQueNoSeCalcular)*\beamAngle)+\halfAngle+\globalRotation}
-    \pgfmathsetmacro\l  {\cZoom*1.5+.3pt}
-    \draw (\initialAngle:{\cZoom*1.6}) -- (\initialAngle:{\cZoom*1.1});
-    \draw [ |<->|,>=latex] (\initialAngle:\l) arc (\initialAngle:\finalAngle:\l) ;    									 
-    \pgfmathsetmacro\r  {\cZoom*1.5+.45pt}
+    \pgfmathsetmacro\l  {\cZoom*1.1+.3pt}
+    \draw (\initialAngle:{\cZoom*1.1}) -- (\initialAngle:{\cZoom*1.1});
+    \draw [ |<->|,>=latex] (\initialAngle:\l) arc (\initialAngle:\finalAngle:\l) ;
+    \pgfmathsetmacro\r  {\cZoom*1.1+.45pt}
     {\draw [decoration={text along path,  text={\name},text align={center}},decorate] (\finalAngle:\r) arc (\finalAngle:\initialAngle:\r);}
   }
   
@@ -119,23 +103,25 @@
 
     \pgfmathsetmacro\initialAngle{(\contadorQueNoSeCalcular*\beamAngle)+\halfAngle+\globalRotation}
     \pgfmathsetmacro\finalAngle  {((\numElm+\contadorQueNoSeCalcular)*\beamAngle)+\halfAngle+\globalRotation}
-    \pgfmathsetmacro\l  {\cZoom*1.5+.3pt}
-    \draw (\initialAngle:{\cZoom*1.6}) -- (\initialAngle:{\cZoom*1.1});
+    \pgfmathsetmacro\l  {\cZoom*1.1+.3pt}
+    \draw (\initialAngle:{\cZoom*1.1}) -- (\initialAngle:{\cZoom*1.1});
     \draw [ |<->|,>=latex] (\initialAngle:\l) arc (\initialAngle:\finalAngle:\l) ;    									 
-    \pgfmathsetmacro\r  {\cZoom*1.5+.7pt}
+    \pgfmathsetmacro\r  {\cZoom*1.1+.7pt}
     {\draw [decoration={text along path, text={\name},text align={center}},decorate] (\initialAngle:\r) arc (\initialAngle:\finalAngle:\r);}    			 
   }
   
   \draw [thick,color=black] (0,0) circle [radius={\cZoom*.63}];
   
-  \node [anchor=north west] at (\cZoom*1.8,\cZoom*1.5){
+  \node [anchor=north] at (0, \cZoom*-1.25){
     \begin{tikzpicture}
-      \begin{customlegend}[legend entries={Dataset size categorization,Datset size,AOV results, Manual delineation AOV, AOV percentage,62.3\% AOV}]
+      \begin{customlegend}[ 
+        legend columns=-1,
+        legend style={ draw=none, column sep=1em},
+        legend entries={Dataset s/m/l, manual AOV\cite{gerard2013}, AOV, obtained AOV}
+        ]
         \addlegendimage{red,fill=red!20!white, draw=red!60!gray, ybar, ybar legend}
-        \addlegendimage{number in legend=XX,red}
-        \addlegendimage{red,draw=blue,thick,sharp plot}
         \addlegendimage{red,fill=blue!15!white,draw=blue,dashed,area legend}
-        \addlegendimage{number in legend=XX.X\%,blue}
+        \addlegendimage{red,draw=blue,thick,sharp plot}
         \addlegendimage{red,draw=black,thick,sharp plot}
       \end{customlegend}
     \end{tikzpicture}};

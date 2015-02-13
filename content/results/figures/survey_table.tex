@@ -1,0 +1,55 @@
+
+\newcommand{\myCoord}[1]{
+  \tikz[remember picture]{\coordinate[remember picture] (#1) at (0,0);
+    \node at (#1) {x};
+  }
+}
+
+\begin{tabular}{lcccccccccccccccc}
+  Method Id:
+              &a\cite{Liu:2010p14328}
+              &b\cite{Gao:2012p14336}
+              &c\cite{AlemanFlores:2007p14310}
+              &d\cite{Huang:2012p14313}
+              &e\cite{Madabhushi:2003p6036}
+              &f\cite{hao2012combining}
+              &g\cite{Zhang:2010p14317}
+              &h\cite{Xiao:2002p5639}
+              &i\cite{massich2010lesion}
+              &j\cite{Shan:2012p14347}
+              &k\cite{Yeh:2009p11985}
+              &l\cite{Horsch:2001p6028}
+              &m\cite{Gomez:2010p14339}
+              &n\cite{Huang:2005p11636}
+              &o\cite{Huang:2007p6100}
+              &p\cite{Cui:2009p14325}\\
+  \hline
+  Dataset size:     & 76   & 20   & 32   & 20   & 42   & 480  & 347    & 352  & 25
+                    & 120  & 6    & 400  & 50   & 20   & 118  & 488 \\
+
+  \ac{aov} (in \%): & 88.1 & 86.3 & 88.3 & 85.2 & 62.0 & 75.0 & 84.0   & 54.9 & 64.0
+                    & 83.1 & 73.3 & 73.0 & 85.0 & 78.6 & 77.6 & 74.5\\
+
+  \hline
+  techonlogy used for:  &\\
+  \quad detection       & \myCoord{Adetect} & \myCoord{Bdetect} & \myCoord{Cdetect} & \myCoord{Ddetect} & \myCoord{Edetect} 
+                        & \myCoord{Fdetect} & \myCoord{Gdetect} & \myCoord{Hdetect} & \myCoord{Idetect} & \myCoord{Jdetect}
+                        & \myCoord{Kdetect} & \myCoord{Ldetect} & \myCoord{Mdetect} & \myCoord{Ndetect} & \myCoord{Odetect}
+                        & \myCoord{Pdetect}\\
+
+  \quad segmetnation    & \myCoord{Aseg} & \myCoord{Bseg} & \myCoord{Cseg} & \myCoord{Dseg} & \myCoord{Eseg} 
+                        & \myCoord{Fseg} & \myCoord{Gseg} & \myCoord{Hseg} & \myCoord{Iseg} & \myCoord{Jseg}
+                        & \myCoord{Kseg} & \myCoord{Lseg} & \myCoord{Mseg} & \myCoord{Nseg} & \myCoord{Oseg}
+                        & \myCoord{Pseg}\\
+
+  \quad post-processing & \myCoord{App} & \myCoord{Bpp} & \myCoord{Cpp} & \myCoord{Dpp} & \myCoord{Epp} 
+                        & \myCoord{Fpp} & \myCoord{Gpp} & \myCoord{Hpp} & \myCoord{Ipp} & \myCoord{Jpp}
+                        & \myCoord{Kpp} & \myCoord{Lpp} & \myCoord{Mpp} & \myCoord{Npp} & \myCoord{Opp}
+                        & \myCoord{Ppp}\\
+\end{tabular}
+
+\begin{tikzpicture}[remember picture]
+  \node at (Adetect) {z};
+  % \foreach \x in {Adetect, Bdetect, Aseg, Bpp}
+  % \node at (\x) {y};
+\end{tikzpicture}

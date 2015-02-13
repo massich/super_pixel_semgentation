@@ -100,19 +100,11 @@ which can be divided into two blocks:
 and (b) the tools to encode $D(\cdot)$ based on the features and the training. 
 
 \subsubsection{\ac{bus} features to build the data term} \label{sec:method:dterm:feat}
-\Cref{fig:features} is a three-parts illustration to graphically summarize the visual cues that can be found in \ac{bus} images.
-\Cref{fig:features:breast} shows the structures present in the breast and how these are imaginary rendered using a hand-held 2D \ac{us} probe.
+\Cref{fig:features} is a three-parts illustration to graphically summarize the visual cues that can be found in \ac{bus} images and their incorporation to the data term.
+The structures of the breast and their rendering when using a hand-held 2D \ac{us} probe are shown in \cref{fig:features:breast}.
 \Cref{fig:features:lexicon} illustrates the lexicon proposed by the \ac{acr}~\cite{biradsus}.
-\emph{And \cref{fig:features:relation}, illustrates which visual cue exploided by the lexion was targeted by the data term features proposed in Massich et al.~\cite{massich2013phd}.}
-Notice that not all the visual cues used 'composing' the lexicon are suitable to build the data term.
-Mass shape, orientation and margin cues do not characterize individual super-pixels but a group of contiguous super-pixels sharing the same label.
-Characterising supper pixels in those terms imply that super-pixels should be image elements of the same order as the lesions. 
-This is not the case, since the bottom-line is to aggregate small regions to form the segmentation.
-The lesion boundary cue falls at the other extreme.
-To encode this visual cue as data term feature implies to use smaller super-pixels in order to be fully contained within the halo, limiting the discriminatory power of other features that need larger regions to build higher-level descriptors.
-%These cues are more suitable for \ac{cade} stages. 
+Whereas \cref{fig:features:relation} relates the visual cues to the following features:
 
-Massich et al.~\cite{massich2013phd} reported that the features in \cref{fig:features:relation} extracted to describe the sample $s$ correspond to the following:
 \begin{description}
   \item[Appearance] 
     Based on the multi-labelled \ac{gt}, a \ac{mad} histogram model for every tissue label is build. The Appearance feature is computed as the \ac{qc} distance between histogram of $s$ and the models.
@@ -124,7 +116,8 @@ Massich et al.~\cite{massich2013phd} reported that the features in \cref{fig:fea
     $s$ is represented as the occurrences of a \ac{sift} dictionary of 36 words~\cite{massich2014sift}.
 \end{description}
 
-Massich et al.~\cite{massich2013phd} also reports that in order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor. This operation can be repeated several times.
+In order to incorporate multi-resolution, each super-pixel is group with its adjacent super-pixels such that $s' = \{s \cup \mathcal{N}_{s}\}$, the features are recalculated using $s'$ and concatenated to the original feature descriptor of $s$.
+This operation can be repeated several times.
 
 \begin{figure}
     \centering
@@ -164,6 +157,14 @@ Massich et al.~\cite{massich2013phd} also reports that in order to incorporate m
     \caption {{\small Visual reference of breast structures and visual cues used for standard \ac{bus} image assessment and diagnosis.}} 
     \label{fig:features}
 \end{figure}
+
+Notice that not all the visual cues compiled by the lexicon are suitable to build the data term.
+Mass shape, orientation and margin cues do not characterize individual super-pixels but a group of contiguous super-pixels sharing the same label.
+Characterising supper pixels in those terms imply that super-pixels should be image elements of the same order as the lesions. 
+This is not the case, since the bottom-line is to aggregate small regions to form the segmentation.
+The lesion boundary cue falls at the other extreme.
+To encode this visual cue as data term feature implies to use smaller super-pixels in order to be fully contained within the halo, limiting the discriminatory power of other features that need larger regions to build higher-level descriptors.
+%These cues are more suitable for \ac{cade} stages. 
 
 In this manner the B.Echo-texture, is mainly encoded by the SIFT-BoF but also through the Appearance feature since elements would have the same model.
 Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings in crucial information to compensate for intensity inhomogeneities caused signal attenuation present in the more posterior parts of the image.
