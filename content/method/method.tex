@@ -121,10 +121,12 @@ This operation can be repeated several times.
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.28\textwidth}
+    \begin{subfigure}[b]{0.34\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{breast}
-        \includegraphics[width=0.5\textwidth]{slice}
+        \begin{tikzpicture}
+          \node[inner sep=0, draw] (breast) {\includegraphics[width=0.5\textwidth]{breast}};
+          \node[inner sep=0, draw, below= of breast] (slice) {\includegraphics[width=0.5\textwidth]{slice}};
+        \end{tikzpicture}
         \caption{{\small Breast structure}}    
         \label{fig:features:breast}
     \end{subfigure}
@@ -136,22 +138,20 @@ This operation can be repeated several times.
         {Breast lesion characteristics in \ac{us} screening influencing clinical management~\cite{raza2010us}}    
         \label{fig:features:lexicon}
     \end{subfigure}
-    \\
-    \begin{subfigure}[b]{\textwidth}
+    \hfill
+    \begin{subfigure}[b]{0.2\textwidth}
+      \newcommand{\insertVisualCue}[2]{
+        \tikz{\node[label=above:#2]{\includegraphics[width=0.5\textwidth]{#1}};}
+      }
       \centering
-      \begin{tabular}{lcccccccc}
-                  &Background Echo-Texture  
-                  &Posterior  %Acoustic Posterior
-                  &L.Boundary %Lesion Boundary
-                  &M.Orient.  %Mass Orientation        
-                  &M.Margin   %Mass Margin      
-                  &M.Shape    %Mass Shape      
-                  &E.Pattern\\%Echo Pattern\\
-       Appearance & x &   &  &  &  &  & x & \\
-       Atlas      &   & x &  &  &  &  & x & \\
-       Brightness &   & x &  &  &  &  & x & \\
-       SIFT-BoF   & x &   &  &  &  &  &   & \\
-      \end{tabular}
+      \begin{small}
+        \insertVisualCue{AppearanceCues}{Appearance}
+        \vfill
+        \insertVisualCue{AtlasCues}{{Atlas, Brightness}}
+        \vfill
+        \insertVisualCue{siftCues}{SIFT-BoF}
+      \end{small}
+      \caption{Visual cues encoded in the features}
       \label{fig:features:relation}
     \end{subfigure}
     \caption {{\small Visual reference of breast structures and visual cues used for standard \ac{bus} image assessment and diagnosis.}} 
