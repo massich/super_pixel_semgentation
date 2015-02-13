@@ -1,7 +1,7 @@
 
 \newcommand{\myCoord}[1]{
   \tikz[remember picture]{\coordinate[remember picture] (#1) at (0,0);
-    \node at (#1) {x};
+    %\fill[red] (#1) circle[radius=1pt];
   }
 }
 
@@ -48,8 +48,31 @@
                         & \myCoord{Ppp}\\
 \end{tabular}
 
-\begin{tikzpicture}[remember picture]
-  \node at (Adetect) {z};
-  % \foreach \x in {Adetect, Bdetect, Aseg, Bpp}
-  % \node at (\x) {y};
+\tikzstyle{acmStyle} = [fill=black]
+\tikzstyle{mlStyle} = [fill=blue]
+\tikzstyle{otherStyle} = [fill=green]
+
+\begin{tikzpicture}[remember picture, overlay]
+  \tikzstyle{nodeBase} = [ rectangle,rounded corners=2pt]
+
+  % single step ACM
+  \foreach \x in {Cseg, Cpp, Dpp, Epp, Npp, Opp, Ppp}
+  \node[nodeBase, acmStyle, anchor=center] at (\x) {};
+
+  % single step ML
+  \foreach \x in {Edetect, Gdetect, Idetect, Pseg}
+  \node[nodeBase, mlStyle, anchor=center] at (\x) {};
+
+  % single step Other
+  \foreach \x in {Eseg, Iseg, Ipp, Jpp, Kseg, Lseg, Mseg, Mpp, Nseg}
+  \node[nodeBase, otherStyle, anchor=center] at (\x) {};
+
+  \node[nodeBase, acmStyle, fit= (Adetect) (Aseg) (App)] {};
+  \node[nodeBase, acmStyle, fit= (Bseg)(Bpp)] {};
+  \node[nodeBase, mlStyle, fit= (Ddetect)(Dseg)] {};
+  \node[nodeBase, mlStyle, fit= (Fdetect)(Fseg)] {};
+  \node[nodeBase, mlStyle, fit= (Gseg)(Gpp)] {};
+  \node[nodeBase, mlStyle, fit= (Hseg)(Hpp)] {};
+  \node[nodeBase, mlStyle, fit= (Jdetect)(Jseg)] {};
+  \node[nodeBase, otherStyle, fit= (Odetect)(Oseg)] {};
 \end{tikzpicture}
