@@ -20,39 +20,40 @@ The \ac{fnr} reported in \cref{fig:surveyResults:method} is caused by an image w
 
 \begin{figure}[h]
   \centering
-  \begin{subfigure}[b]{0.42\textwidth}
-      \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSorigin}
-          \caption{xx}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSseg}
-        \caption{xx}
-        \label{fig:results:perfect}
-      \end{subfigure}
+
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSorigin}
+    \caption{xx}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSseg}
+    \caption{xx}
+    \label{fig:results:perfect}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\textwidth}
+    \centering
+    \includegraphics[trim = 0 90 0 0, clip, height=4cm]{fporigin}
+    \caption{xx}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.15\textwidth}
+    \begin{subfigure}[b]{\textwidth}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpnohom}
+      \caption{xx}
+      \label{fig:resuts:smallPWterm}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.55\textwidth}
-      \begin{subfigure}[b]{0.60\textwidth}
-          \includegraphics[trim = 0 90 0 0, clip, height=4cm]{fporigin}
-          \caption{xx}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.3\textwidth}
-        \begin{subfigure}[b]{\textwidth}
-          \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpnohom}
-          \caption{xx}
-          \label{fig:resuts:smallPWterm}
-        \end{subfigure}
-        \begin{subfigure}[b]{\textwidth}
-          \vspace{5pt}
-            \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpHom}
-            \caption{{\small xx}}
-            \label{fig:results:bigPWterm}
-        \end{subfigure}
-      \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+      \vspace{5pt}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpHom}
+      \caption{{\small xx}}
+      \label{fig:results:bigPWterm}
     \end{subfigure}
+  \end{subfigure}
+
   \caption{Qualitative results}
   \label{fig:results}
 \end{figure}
