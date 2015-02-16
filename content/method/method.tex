@@ -1,5 +1,5 @@
 % include the figures path relative to the master file
-\graphicspath{ {./content/method/figures/} {./content/intro/figures/} }
+\graphicspath{ {./content/method/figures/visual_cues/} {./content/method/figures/}}
 
 \section{Description of the segmentation methodology} 
 
@@ -16,6 +16,7 @@ and (3) a re-mapping the labels obtained from the previous stage to produce the 
   \caption{Conceptual block representation of the segmentation methodology}
   \label{fig:method}
 \end{figure}
+
 
 In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
 (i.e.\, $\mathcal{L} \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
@@ -64,7 +65,7 @@ Both terms are shaped by $\mathcal{S}$ and evaluated in the labelling space $\ma
     \begin{subfigure}[b]{0.39\textwidth}   
         \centering 
         \includegraphics[width=\textwidth]{smooth} \caption[]%
-        {{\small Pairwise term \emph{for this term the labels should be patterns and the cost be the only colour}}}    
+        {{\small Pairwise term }}
         \label{fig:methodTerms:boundary}
     \end{subfigure}
     \caption {\small Methodology terms interpretation} 
@@ -154,6 +155,7 @@ This operation can be repeated several times.
       \caption{Visual cues encoded in the features}
       \label{fig:features:relation}
     \end{subfigure}
+    \hfill
     \caption {{\small Visual reference of breast structures and visual cues used for standard \ac{bus} image assessment and diagnosis.}} 
     \label{fig:features}
 \end{figure}
