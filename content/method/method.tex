@@ -19,8 +19,8 @@ and (3) a re-mapping the labels obtained from the previous stage to produce the 
 
 
 In order to formulate the segmentation like a metric labelling problem, the image is conceived as a discrete set of elements $\mathcal{S}$ that need to be labelled using a label $l$ from the labelling set $\mathcal{L}$ 
-(i.e.\, $\mathcal{L} \in \{\text{lesion}, \overline{\text{lesion}}\}$ 
-or $\mathcal{L} \in \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
+(i.e.\, $\mathcal{L} = \{\text{lesion}, \overline{\text{lesion}}\}$ 
+or $\mathcal{L} = \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
 Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$, given $\mathcal{L}$.
 Let $U(\cdot)$ be a cost function encoding the goodness of the labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some designing constraints.
 Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimize this cost function, as described in \Cref{eq:costMin}.
