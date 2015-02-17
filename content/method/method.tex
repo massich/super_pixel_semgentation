@@ -23,7 +23,7 @@ In order to formulate the segmentation like a metric labelling problem, the imag
 or $\mathcal{L} = \{\text{lungs}, \text{fat},\,\cdots\,, \text{lesion}\}$).
 Let $\mathcal{W}$ be all the possible labelling configurations of the set $\mathcal{S}$, given $\mathcal{L}$.
 Let $U(\cdot)$ be a cost function encoding the goodness of the labelling configuration $\omega \in \mathcal{W}$ based on the appearance of the elements in $\mathcal{S}$, their inner relation and some designing constraints.
-Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimize this cost function, as described in \Cref{eq:costMin}.
+Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling configuration that minimizes this cost function, as described in \Cref{eq:costMin}.
 
 \begin{equation}
 \hat{\omega} = \arg \min_{\substack{\omega}} \,U(\omega)
@@ -31,7 +31,7 @@ Then, the desired segmentation $\hat{\omega}$ corresponds to the labelling confi
 \end{equation}
 
 It is worth to mention here that not all the minimization strategies are applicable or adequate to find $\hat{\omega}$.
-The convenience of a particular minimization strategy is determined by the nature of $u(\cdot)$ and $\mathcal{w}$ (see \cref{sec:method:min}).
+The convenience of a particular minimization strategy is determined by the nature of $U(\cdot)$ and $\mathcal{W}$ (see \cref{sec:method:min}).
 
 This goodness measure $U(\cdot)$ must be defined to take into account the appearance of the target region, its relation with other regions and other designing constraints.
 \Cref{eq:labelingeq} describes this cost function as the combination of two independent costs that need to be simultaneously minimized as a whole.
@@ -41,7 +41,7 @@ This goodness measure $U(\cdot)$ must be defined to take into account the appear
   \label{eq:labelingeq}
 \end{equation}
 
-The left hand side of the expression integrates the so-called \emph{data} term, while the right hand side integrates the \emph{pairwise} term, which is also referred as the \emph{smoothing} term.
+Where, the left hand side of the expression integrates the so-called \emph{data} term, while the right hand side integrates the \emph{pairwise} term, which is also referred as the \emph{smoothing} term.
 Both terms are shaped by $\mathcal{S}$ and evaluated in the labelling space $\mathcal{W}$.
 \Cref{fig:methodterms} uses the problem of delineating the tissues present in a \ac{bus} image to represent the working principles of the data and pairwise terms in \cref{eq:labelingeq}.
 
@@ -74,9 +74,9 @@ Both terms are shaped by $\mathcal{S}$ and evaluated in the labelling space $\ma
 
 In general, $\mathcal{S}$ can be any discrete set representing the image (i.e.\, pixels, overlapping or non overlapping windows, etc.). 
 For this work $\mathcal{S}$ is chosen to be a super-pixels representation of the image.
-Super-pixels can be seen as the output of a over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to some metric. Either way, super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
-\Cref{fig:methodTerms:problem} illustrates the super-pixels idea showing a \ac{bus} image example and a its associated super-pixels representation $\mathcal{S}$ coloured according to the image's \ac{gt}.
-For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels resulting from over-segmentation of the image using Quick-shift~\cite{massich2013phd}.
+Super-pixels can be seen as the output of an over-segmentation process or as a set of pixel collections that are contiguous and coherent with respect to a given metric. Either way, super-pixels are no overlapped irregular groups of similar connected pixels~\cite{achanta2012slic}.
+\Cref{fig:methodTerms:problem} illustrates one such representation $\mathcal{S}$, applied to a \ac{bus} image example. The super-pixels are coloured according to the image's \ac{gt}.
+For the rest of this work, $\mathcal{S}$ is considered to be the super-pixels resulting from an over-segmentation of the image using Quick-shift~\cite{massich2013phd}.
 
 Bear in mind that given an unseen \ac{bus} image, the ultimate goal is to represent the image as a set of super-pixels and infer the appropriated labelling for each of them.
 This goal requires to define: a data term, a pairwise term, and a proper minimization methodology.
@@ -91,7 +91,8 @@ Notice that the labelling configurations $\omega$ used in \cref{fig:methodTerms:
 Designing an obscure heuristic to comply with the desired behaviour of $D(\cdot)$ out of the box, is rather a complicated task.
 Therefore, an easier and cleaner approach is to take advantage of \ac{ml} techniques to design this data cost in a systematic manner based on a training stage. 
 The idea is to generate a data model for each label (or class) in $\mathcal{L}$ from training samples, and let $D(\cdot)$ be a distance or goodness measure reflecting the likelihood for $s$ to belong to class $l$.
-Using \ac{ml} to define $D(\cdot)$ in this manners offers a systematic approach towards its design while remaining highly flexible since it allows for customizing the features to represent the data, allows for customizing the construction of the model where several classifiers and training techniques can be applied; or even to include some arbitrary constrains.
+\ac{ml} offers a systematic but flexible approach to customize $D(\cdot)$.
+Different features to represent the data, custom construction of the data models by using different classifiers, training techniques or including arbitrary constraints; can be used to achieve the desired data term without changing the overall scheme. 
 
 Despite details regarding the construction $D(\cdot)$ are out of the scope of this report, the rest of this \cref{sec:method:dataTerm} summarizes this process.
 For further details the reader is referred to Massich et al.~\cite{massich2013phd}.
@@ -161,26 +162,26 @@ This operation can be repeated several times.
 \end{figure}
 
 Notice that not all the visual cues compiled by the lexicon are suitable to build the data term.
-Mass shape, orientation and margin cues do not characterize individual super-pixels but a group of contiguous super-pixels sharing the same label.
-Characterising supper pixels in those terms imply that super-pixels should be image elements of the same order as the lesions. 
+Mass shape, orientation and margin cues do not characterize an individual super-pixel but a group of contiguous super-pixels sharing the same label.
+Characterising super-pixels in those terms imply that super-pixels should be image elements of the same order as the lesions. 
 This is not the case, since the bottom-line is to aggregate small regions to form the segmentation.
 The lesion boundary cue falls at the other extreme.
 To encode this visual cue as data term feature implies to use smaller super-pixels in order to be fully contained within the halo, limiting the discriminatory power of other features that need larger regions to build higher-level descriptors.
 %These cues are more suitable for \ac{cade} stages. 
 
 In this manner the B.Echo-texture, is mainly encoded by the SIFT-BoF but also through the Appearance feature since elements would have the same model.
-Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings in crucial information to compensate for intensity inhomogeneities caused signal attenuation present in the more posterior parts of the image.
-The Echo Pattern cue, encodes the echoginity of a region with respect to the adipose tissue. This can be found at the anterior part of the image and its echoginity is close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
+Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings crucial information to compensate for intensity inhomogeneities caused by signal attenuation present in the most posterior parts of the image.
+The Echo Pattern cue, encodes the echoginity of a region with respect to the adipose tissue. This can be found at the anterior part of the image with its echoginity is close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
 
 \subsubsection{The data term construction}
 For the work here reported, a \ac{svm} classifier is used to determine the data model during the training stage.
-During testing stage $D_s(\omega_s=l)$ corresponds to the distance between the testing sample and the model associated to $l$ as the \ac{svm} classification reward. 
+During the testing stage, $D_s(\omega_s=l)$ corresponds to the distance between the testing samples and the model associated to $l$ as the \ac{svm} classification reward. 
 
 \subsection{The pairwise (or smoothing) term} \label{sec:method:mrfTerm}
  
 The pairwise term represents the cost associated to $\omega_s$ taking into account the labels of its neighbour sites, $\omega_r$, $r \in \mathcal{N}_{s}$. 
 This term models a \ac{mrf} or a \ac{crf}.
-The typical form of this term, given in \cref{eq:smoothing}, is called homogenization which acts as a regularization factor favouring configurations that have coherent labelling.
+The typical form of this term, given in \cref{eq:smoothing}, is called homogenization which acts as a regularization factor favouring configurations that have a coherent labelling.
 
 \begin{equation}
 V_{s,r}(\omega_s,\omega_r) = 
@@ -192,10 +193,10 @@ V_{s,r}(\omega_s,\omega_r) =
 \end{equation}
 
 \Cref{fig:methodTerms:boundary} offers a visual interpretation of this cost.
-The more fragmented is the segmentation $\omega$, the higher the overall pairwise term would it be since every boundary brings a penalization $\beta$ to the total cost $U(\omega)$.
-In this manner the regularization term can be seen as a post-processing or denoising stage since some sites will flip their labelling if the cost of fragmenting the regions is larger than the cost of adopting the neighbour's label. 
+The more fragmented is the segmentation $\omega$, the higher the overall pairwise term; since every boundary brings a penalization $\beta$ to the total cost $U(\omega)$.
+In this manner the regularization term can be seen as a post-processing or denoising stage since that some sites will flip their labelling if the cost of fragmenting the regions is larger than the cost of adopting their neighbour's label. 
 
-More sophisticated smoothing terms where boundaries have different penalization based not only on site relations in $\mathcal{S}$ but also based on image information as illustrated in \cref{fig:methodTerms:boundary} are also naturally handled by the proposed framework~\cite{massich2013phd}.
+More sophisticated smoothing terms, where boundaries have different penalization based on site relations in $\mathcal{S}$ and image information as illustrated in \cref{fig:methodTerms:boundary}, are also naturally handled by the proposed framework~\cite{massich2013phd}.
 
 % Review %contribute have different or variable costs (see \cref{fig:methodTerms:boundary}) are also possible by taking into account not only relations in $\mathcal{S}$ of but also image information (see \cref{fig:method}). 
 %Further details can be found in \cref{sec:smoothing}.
@@ -206,7 +207,7 @@ Once defined $U(\omega)$ so that the cost for a particular labelling configurati
 This problem falls into the category of \textbf{NP-hard} problems. 
 % Good % The dimension of the solution space can be expressed as $||\mathcal{W}|| = ||\mathcal{L}||^{||\mathcal{S}||}$. 
 % Good % This means that in order to perform an exhaustive search for a toy example of $20$ sites and two possible labels, the cost function needs to be calculated way more than a million times. 
-More over, due to limitations in building $U(\cdot)$ such as noise, training policies, etc. there are no guarantees that the global minimum $\hat{\omega}$ corresponds to the true labelling.
+Moreover, due to limitations in building $U(\cdot)$ such as noise, training policies, etc. there are no guarantees that the global minimum $\hat{\omega}$ corresponds to the true labelling.
 
 Nevertheless, there is a large body of literature proposing methodologies to find suboptimal solutions to the problem trading-off between time of convergence and accuracy of the solution reached.
 Szeliski et al.~\cite{szeliski2008comparative} conducted an exhaustive review in terms of solution quality and runtime of the most common energy minimization algorithms used in \ac{cv}, such as \ac{icm}, \ac{sa} or \ac{gc}.
@@ -216,7 +217,7 @@ This technique was initially introduced to solve \ac{cv} applications by Boykov 
 Soon after its introduction, it becomes the minimization technique of choice for \ac{cv} problems.
 Since, when \ac{gc} is applicable, it allows to rapidly find a strong local minima guaranteeing that no other minimum with lower energies can be found~\cite{delong2012fast}. 
 \ac{gc} is applicable if, and only if, the pairwise term favours coherent labelling configurations and penalizes labelling configurations where neighbours labels differs; 
-such is our case, given \cref{eq:smoothing}.
+such is our case, given in \cref{eq:smoothing}.
 
 % Good % \subsection{Similitude with other optimization techniques}
 % Good % \todo{needs reworking}
