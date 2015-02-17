@@ -1,5 +1,7 @@
 % include the figures path relative to the master file
 \graphicspath{ {./content/results/figures/} }
+\input{./content/results/figures/quantitative_figure_definitions.tex}
+
 
 \section{Method evaluation and comparison} 
 A 16 \ac{bus} images dataset with accompanying multi-label \ac{gt} delineating all the structures present in the images has been used to evaluate the proposed methodology for lesion segmentation application.
@@ -80,7 +82,6 @@ The boundaries of this swatch correspond to performance of expert radiologists i
 When comparing the results it is clear the inconvenience of unexciting public data, since several of the results outperform the manual delineations studied in~\cite{gerard2013}.
 It can also be seen that the category tested in larger datasets is \ac{ml}, whereas \ac{acm} lead to better segmentations since the lesion boundary is easier to model in \ac{acm} compared to \ac{ml} based techniques.
 
-
 \begin{figure}[h]
   \begin{subfigure}[b]{\textwidth}
     {\tiny \input{content/results/figures/survey_table.tex}}
@@ -88,18 +89,15 @@ It can also be seen that the category tested in larger datasets is \ac{ml}, wher
     \label{fig:surveyResults:survey}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
-    \begin{subfigure}[b]{0.2\textwidth}
-      \begin{tabular}{lc}
-        \ac{aov}& .623 \\
-        \ac{fpr}& .4 \\
-        \ac{fnr}& .008 \\
-      \end{tabular}
-      \caption{xx}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+      \input{content/results/figures/method_resume.tex}
+      \caption{Higlights of the proposed methodology}
       \label{fig:surveyResults:method}
     \end{subfigure}
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       {\tiny \input{content/results/figures/survey.tex} }
-      \caption{{\small xx}}
+      \caption{{\small comparison}}
       \label{fig:surveyResults:comparison}
     \end{subfigure}
   \end{subfigure}

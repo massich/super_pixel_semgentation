@@ -5,8 +5,34 @@
   }
 }
 
+\newcommand{\drawBox}[5] {
+  % draw a colored bar [0..MaxValue] 
+  % parameters:
+  %  #1 - bar color
+  %  #2 - bar width
+  %  #3 - bar height
+  %  #4 - MaxValue
+  %  #5 - actual Value
+  \begin{tikzpicture}[baseline=(value.center)]
+    \def\w{#2}                   % width of a box
+    \def\h{#3}                   % height of a box
+    \pgfmathsetmacro{\v}{#5/#4}  % value to display in ratio [0-1]  
+    \pgfmathsetmacro{\V}{100*\v} % value to display in percentage   
+    \def\x{\v*\w}                % position of the desired value
+
+    % draw rectangle (value dims between color and: white-body, gray-border)
+    \draw[draw=#1!\V!gray!] (0,0) rectangle (\w,\h);
+    \filldraw[fill=#1!\V!white!, draw=#1!\V!gray!] (0,0) rectangle (\x,\h);
+    % display the value
+    \path (0,0) -- (0,\h) node[midway,anchor=west] (value) {#5};
+
+%    \draw [blue] (current bounding box.south west) rectangle (current bounding box.north east);
+  \end{tikzpicture}
+}
+
+\centering
 \begin{tabular}{lcccccccccccccccc}
-  Method Id:
+  Method Id\textsuperscript{[ref]}:
               &a\cite{Liu:2010p14328}
               &b\cite{Gao:2012p14336}
               &c\cite{AlemanFlores:2007p14310}
@@ -23,14 +49,10 @@
               &n\cite{Huang:2005p11636}
               &o\cite{Huang:2007p6100}
               &p\cite{Cui:2009p14325}\\
-  \hline
+  \\\hline \\
   Dataset size:     & 76   & 20   & 32   & 20   & 42   & 480  & 347    & 352  & 25
                     & 120  & 6    & 400  & 50   & 20   & 118  & 488 \\
 
-  \ac{aov} (in \%): & 88.1 & 86.3 & 88.3 & 85.2 & 62.0 & 75.0 & 84.0   & 54.9 & 64.0
-                    & 83.1 & 73.3 & 73.0 & 85.0 & 78.6 & 77.6 & 74.5\\
-
-  \hline
   techonlogy used for:  &\\
   \quad detection       & \myCoord{Adetect} & \myCoord{Bdetect} & \myCoord{Cdetect} & \myCoord{Ddetect} & \myCoord{Edetect} 
                         & \myCoord{Fdetect} & \myCoord{Gdetect} & \myCoord{Hdetect} & \myCoord{Idetect} & \myCoord{Jdetect}
@@ -46,15 +68,13 @@
                         & \myCoord{Fpp} & \myCoord{Gpp} & \myCoord{Hpp} & \myCoord{Ipp} & \myCoord{Jpp}
                         & \myCoord{Kpp} & \myCoord{Lpp} & \myCoord{Mpp} & \myCoord{Npp} & \myCoord{Opp}
                         & \myCoord{Ppp}\\
+  \\\hline \\
+  \ac{aov} (in \%): & 88.1 & 86.3 & 88.3 & 85.2 & 62.0 & 75.0 & 84.0   & 54.9 & 64.0
+                    & 83.1 & 73.3 & 73.0 & 85.0 & 78.6 & 77.6 & 74.5\\
 \end{tabular}
 
-\tikzstyle{acmStyle} = [fill=black]
-\tikzstyle{mlStyle} = [fill=blue]
-\tikzstyle{otherStyle} = [fill=green]
 
 \begin{tikzpicture}[remember picture, overlay]
-  \tikzstyle{nodeBase} = [ rectangle,rounded corners=2pt]
-
   % single step ACM
   \foreach \x in {Cseg, Cpp, Dpp, Epp, Npp, Opp, Ppp}
   \node[nodeBase, acmStyle, anchor=center] at (\x) {};

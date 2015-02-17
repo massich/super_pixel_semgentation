@@ -1,0 +1,32 @@
+\newcommand{\myCoord}[1]{
+  \tikz[remember picture]{\coordinate[remember picture] (#1) at (0,0);
+    %\fill[red] (#1) circle[radius=1pt];
+  }
+}
+
+
+\begin{tikzpicture}[remember picture]
+  \node[remember picture, anchor=north west](methodTech){
+    \begin{tabular}{lc}
+     technology used for:&\\ 
+     \quad detection& \myCoord{mlInit}\\
+     \quad segmentation&\\
+     \quad post-processing&\myCoord{mlFin}\\
+    \end{tabular}
+  };
+  \node[yshift=2pt,remember picture, overlay, nodeBase, mlStyle, fit= (mlInit) (mlFin)]{};
+
+  \node[below= of methodTech, anchor=north west](methodS){
+     $\mathcal{S}$:~Quick-Shift super-pixels
+  };
+  
+  \node[](testingNode){};
+  \node[below= of methodologyNode](resultsNode){
+      \begin{tabular}{lc}
+        \ac{aov}& .623 \\
+        \ac{fpr}& .4 \\
+        \ac{fnr}& .008 \\
+      \end{tabular}
+  };
+\end{tikzpicture}
+
