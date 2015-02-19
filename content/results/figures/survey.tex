@@ -1,24 +1,5 @@
 \begin{tikzpicture}[scale=.85]
 
-%  \definecolor{autoGuided}{rgb}{ 0.3765    0.7294    0.9412}
-%  \newcommand{\autoGuidedColor}{(light-Blue)}
-%  \definecolor{fullyAuto}{rgb}{ 0.0941    0.3843    0.6627}
-%  \newcommand{\fullyAutoColor}{(dark-blue)}
-%  \definecolor{semiAuto}{rgb}{ 0.0784    0.5059    0.1686}
-%  \newcommand{\semiAutoColor}{(light-green)}
-%  \definecolor{fullyGuided}{rgb}{ 0.4275    0.6902    0.3176}
-%  \newcommand{\fullyGuidedColor}{(dark-green)}
-%  \definecolor{colorTheme}{RGB}{51,41,178}
-
-\definecolor{autoGuided}{rgb}{0 0 0}
-  \newcommand{\autoGuidedColor}{(light-Blue)}
-  \definecolor{fullyAuto}{rgb}{ 0 0 0 }
-  \newcommand{\fullyAutoColor}{(dark-blue)}
-  \definecolor{semiAuto}{rgb}{0 0 0}
-  \newcommand{\semiAutoColor}{(light-green)}
-  \definecolor{fullyGuided}{rgb}{0 0 0}
-  \newcommand{\fullyGuidedColor}{(dark-green)}
-  \definecolor{colorTheme}{RGB}{0 0 0 }
 
   \def\labels{ c, b, a, p, o, n, m, l, k, j, i, h, g, f, e, d}
   
@@ -34,8 +15,8 @@
   \pgfmathsetmacro\globalRotation{\halfAngle}
 
   % draw manual AOV results
-  \filldraw[blue!15!white,even odd rule] (0,0) circle [radius={\cZoom*.852}] (0,0) circle [radius={\cZoom*.8}];
-  \draw[thin,color=blue!50!white,dashed] (0,0) circle [radius={\cZoom*.852}] (0,0) circle [radius={\cZoom*.8}];
+  \filldraw[aov!15!white,even odd rule] (0,0) circle [radius={\cZoom*.852}] (0,0) circle [radius={\cZoom*.8}];
+  \draw[thin,color=aov!50!white,dashed] (0,0) circle [radius={\cZoom*.852}] (0,0) circle [radius={\cZoom*.8}];
 
   % \foreach \x in {.125,.25, ...,1} { \draw[thin]  (0,0) circle [radius={2*\x}]; }
   % draw the radiants with the reference label
@@ -55,30 +36,58 @@
     \draw [thin,color=black!50] (0,0) circle [radius={\cZoom/100*\x}];
     \foreach \a in {0, 180} \draw ({\percentageLabelAngle+\a}:{\cZoom*0.01*\x}) node  [inner sep=0pt,outer sep=0pt,fill=white,font=\fontsize{5}{5}\selectfont]{$\x$};
   }
+  
+  %% draw our results ring
+  \draw [thick,color=black] (0,0) circle [radius={\cZoom*.63}];
+  \foreach \a in {0, 180} \draw ({\percentageLabelAngle+\a}:{\cZoom*0.63}) node  [inner sep=0pt,outer sep=0pt,fill=white,font=\fontsize{5}{5}\selectfont]{$62.3$};
 
 
   % draw the path of the percentages
   \def\aux{{\reward}}
   \pgfmathsetmacro\origin{\aux[\nbeams-1]} 
-  \draw [blue, thick] (\globalRotation:{\cZoom*\origin/100}) \foreach \n  [count=\ni] in \reward { -- ({(\ni*(360/\nbeams))+\globalRotation}:{\cZoom*\n/100}) } ;
+  \draw [aov, thick] (\globalRotation:{\cZoom*\origin/100}) \foreach \n  [count=\ni] in \reward { -- ({(\ni*(360/\nbeams))+\globalRotation}:{\cZoom*\n/100}) } ;
 
   % label all the percentags
   \foreach \n [count=\ni] in \dbSize 
   {
     \pgfmathsetmacro\cAngle{{(\ni*(360/\nbeams))+\globalRotation}}
     \pgfmathsetmacro\nreward{\aux[\ni-1]}
-%    \draw (\cAngle:{\cZoom*1.4}) node[align=center] {{\color{blue}\nreward $\%$} \\ {\color{red}\n} };
+%    \draw (\cAngle:{\cZoom*1.4}) node[align=center] {{\color{aov}\nreward $\%$} \\ {\color{db}\n} };
   } ;
 
   % draw the database rose
   \def\dbScale{\09}
   \foreach \n [count=\ni] in \dbClass
-  \filldraw[fill=red!20!white, draw=red!50!black]
+  \filldraw[fill=db!20!white, draw=db!50!black]
   (0,0) -- ({\ni*(360/\nbeams)-\halfAngle+\globalRotation}:{\cZoom*\n/9}) arc ({\ni*(360/\nbeams)-\halfAngle+\globalRotation}:{\ni*(360/\nbeams)+\halfAngle+\globalRotation}:{\cZoom*\n/9}) -- cycle;
   \foreach \x in {1,2,3}
-  \draw [thin,color=red!50!black,dashed] (0,0) circle [radius={\cZoom*\x/9}];
+  \draw [thin,color=db!50!black,dashed] (0,0) circle [radius={\cZoom*\x/9}];
+
+  %% draw the legend
+  \node [anchor=north west,yshift=-6pt] at (-45:\cZoom*1.1){
+    \begin{tikzpicture}[font=\tiny]
+      \begin{customlegend}[ 
+        legend style={ draw=none},
+        legend entries={AOV, Result}
+        ]
+        \addlegendimage{db,draw=aov,thick,sharp plot}
+        \addlegendimage{db,draw=black,thick,sharp plot}
+      \end{customlegend}
+    \end{tikzpicture}};
+
+  \node [anchor=north east, xshift=-5pt] at (-130:\cZoom*1.1){
+    \begin{tikzpicture}[font=\tiny]
+      \begin{customlegend}[ 
+        legend style={ draw=none},
+        legend entries={Dataset, Experts\cite{gerard2013}}
+        ]
+        \addlegendimage{db,fill=db!20!white, draw=db!60!gray, ybar, ybar legend}
+        \addlegendimage{db,fill=aov!15!white,draw=aov,dashed,area legend}
+      \end{customlegend}
+    \end{tikzpicture}};
 
   %% draw the domain of each class 
+  %\def\puta{	3/0/{\tikz{\node[nodeBase,acmStyle]{};}ACM},
   \def\puta{	3/0/{ACM},
     3/3/{ACM+Other},
     3/6/{Other}}
@@ -98,6 +107,10 @@
     {\draw [decoration={text along path,  text={\name},text align={center}},decorate] (\finalAngle:\r) arc (\finalAngle:\initialAngle:\r);}
   }
   
+  \node[nodeBase,acmStyle] at (63:\cZoom*1.28) {};
+  \node[nodeBase,mlStyle] at (-61:\cZoom*1.28) {};
+  \node[nodeBase,otherStyle] at (-161.5:\cZoom*1.28) {};
+
   \foreach \numElm/\contadorQueNoSeCalcular/\name [count=\ni] in \putaa
   {
 
@@ -106,26 +119,9 @@
     \pgfmathsetmacro\l  {\cZoom*1.1+.3pt}
     \draw (\initialAngle:{\cZoom*1.1}) -- (\initialAngle:{\cZoom*1.1});
     \draw [ |<->|,>=latex] (\initialAngle:\l) arc (\initialAngle:\finalAngle:\l) ;    									 
-    \pgfmathsetmacro\r  {\cZoom*1.1+.7pt}
+    \pgfmathsetmacro\r  {\cZoom*1.1+.61pt}
     {\draw [decoration={text along path, text={\name},text align={center}},decorate] (\initialAngle:\r) arc (\initialAngle:\finalAngle:\r);}    			 
   }
   
-  \draw [thick,color=black] (0,0) circle [radius={\cZoom*.63}];
   
-  \node [anchor=north] at (0, \cZoom*-1.25){
-    \begin{tikzpicture}
-      \begin{customlegend}[ 
-        legend columns=-1,
-        legend style={ draw=none, column sep=1em},
-        legend entries={Dataset s/m/l, manual AOV\cite{gerard2013}, AOV, obtained AOV}
-        ]
-        \addlegendimage{red,fill=red!20!white, draw=red!60!gray, ybar, ybar legend}
-        \addlegendimage{red,fill=blue!15!white,draw=blue,dashed,area legend}
-        \addlegendimage{red,draw=blue,thick,sharp plot}
-        \addlegendimage{red,draw=black,thick,sharp plot}
-      \end{customlegend}
-    \end{tikzpicture}};
 \end{tikzpicture}
-% \caption{{\tiny Circular representation of the reported results grouped by methodology class. From inside to outside: used dataset categorization, AOV, work ID, numeric data and methodology category label. The work ID is colored as follows: semi-automatic {\color{semiAuto}\semiAutoColor}, auto-guided{\color{autoGuided}\autoGuidedColor}, and fully automatic{\color{fullyAuto}\fullyAutoColor}.}} 
-% \end{figure}
-% \

@@ -1,58 +1,65 @@
 % include the figures path relative to the master file
 \graphicspath{ {./content/results/figures/} }
+\input{./content/results/figures/quantitative_figure_definitions.tex}
+
 
 \section{Method evaluation and comparison} 
 A 16 \ac{bus} images dataset with accompanying multi-label \ac{gt} delineating all the structures present in the images has been used to evaluate the proposed methodology for lesion segmentation application.
-Every image in the used dataset, presents a single lesion with variable extension. 
-The size of the lesions ranges from under one hundreth to over one fifth of the image.
+Every image in the dataset presents a single lesion with variable extension. 
+The size of the lesions ranges from under $1/100$ to over $1/5$ of the image.
 The dataset composed of cysts, \acp{fa}, \acp{dic} and \acp{ilc}.
 
 \Cref{fig:results} shows qualitative results, results whereas the quantitative results from the best configuration are reported as a table in \cref{fig:surveyResults:method}~\cite{massich2013phd}.
-Notice that for the proposed framework, the performance in terms of \ac{aov} is limitted by the capacity of the supper-pixels to snap de desired boundary.
-\Cref{fig:results:perfect} shows how the delination resulting from a propoer labeling of the super-pixels differs from the \ac{gt}.
-Despite the fact that a \ac{fpr} of $0.4$ seems significant, based on our experiments most of the images produce no \ac{fp} lessions.
-However images producing \ac{fp} liesions, are likely to produce more than a single \ac{fp} (see \cref{fig:results}c-e).
-Therefore its presence in the results~\cite{massich2013phd}.
+Notice that for the proposed framework, the performance in terms of \ac{aov} is limited by the capacity of the super-pixels to snap the desired boundary.
+\Cref{fig:results:perfect} shows how the delineation resulting from a proper labeling of the super-pixels differs from the \ac{gt}.
+Despite the fact that a \ac{fpr} of $0.4$ seems significant, based on our experiments most of the images produce no \ac{fp} lesions.
+However, images with \ac{fp} lesions, are likely to produce more several of them as shown in \cref{fig:results}c-e.
 The amount of \ac{fp} lesions can be trimmed by applying a higher cost in the pairwise therm (compare \cref{fig:resuts:smallPWterm} and \cref{fig:results:bigPWterm}.
-Nevertheless, a severe incresing of the pairwise cost also incrases the \ac{fnr} since some lesions are missed due to over-smoothing~\cite{massich2013phd}.
+Nevertheless, a severe increasing of the pairwise cost also increases the \ac{fnr} since some lesions are missed due to over-smoothing~\cite{massich2013phd}.
 The situation of having a larger \ac{fnr} is less desirable than reducing the \ac{fpr}. 
 The \ac{fnr} reported in \cref{fig:surveyResults:method} is caused by an image within the dataset that its lesion is fully contained in a single super-pixel and still around $20\%$ of this super-pixel's area is healty tissue. 
 
 \begin{figure}[h]
   \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-      \begin{subfigure}[b]{0.48\textwidth}
-          \includegraphics[width=\textwidth]{goodQSorigin}
-          \caption{xx}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.48\textwidth}
-          \includegraphics[width=\textwidth]{goodQSseg}
-          \caption{xx}
-          \label{fig:results:perfect}
-      \end{subfigure}
+
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSorigin}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSseg}
+    \caption{}
+    \label{fig:results:perfect}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\textwidth}
+    \centering
+    \includegraphics[trim = 0 90 0 0, clip, height=4cm]{fporigin}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.15\textwidth}
+    \begin{subfigure}[b]{\textwidth}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpnohom}
+      \caption{\small weak $V(\cdot,\cdot)$}
+      \label{fig:resuts:smallPWterm}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-      \begin{subfigure}[b]{0.65\textwidth}
-          \includegraphics[width=\textwidth]{fporigin}
-          \caption{xx}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.28\textwidth}
-        \begin{subfigure}[b]{\textwidth}
-            \includegraphics[width=\textwidth]{fpnohom}
-            \caption{xx}
-            \label{fig:resuts:smallPWterm}
-        \end{subfigure}
-        \begin{subfigure}[b]{\textwidth}
-            \includegraphics[width=\textwidth]{fpHom}
-            \caption{{\small xx}}
-            \label{fig:results:bigPWterm}
-        \end{subfigure}
-      \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+      \vspace{5pt}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpHom}
+      \caption{\small strong $V(\cdot,\cdot)$}
+      \label{fig:results:bigPWterm}
     \end{subfigure}
-  \caption{Qualitative results}
+  \end{subfigure}
+
+  \caption{\small Qualitative results. 
+    (a) Example 1: orignal image, super-pixels' delineations and \ac{gt}. 
+    (b) Differences between \ac{gt} and the delination resulting from super-pixels' boundary.
+    (c) Ex. 2.
+    (d,~e) Pairwise term influence to \ac{fpr}, \ac{fnr}}
   \label{fig:results}
 \end{figure}
 
@@ -74,7 +81,6 @@ The boundaries of this swatch correspond to performance of expert radiologists i
 When comparing the results it is clear the inconvenience of unexciting public data, since several of the results outperform the manual delineations studied in~\cite{gerard2013}.
 It can also be seen that the category tested in larger datasets is \ac{ml}, whereas \ac{acm} lead to better segmentations since the lesion boundary is easier to model in \ac{acm} compared to \ac{ml} based techniques.
 
-
 \begin{figure}[h]
   \begin{subfigure}[b]{\textwidth}
     {\tiny \input{content/results/figures/survey_table.tex}}
@@ -82,18 +88,15 @@ It can also be seen that the category tested in larger datasets is \ac{ml}, wher
     \label{fig:surveyResults:survey}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
-    \begin{subfigure}[b]{0.2\textwidth}
-      \begin{tabular}{lc}
-        \ac{aov}& .623 \\
-        \ac{fpr}& .4 \\
-        \ac{fnr}& .008 \\
-      \end{tabular}
-      \caption{xx}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+      {\footnotesize \input{content/results/figures/method_resume.tex}}
+      \caption{Higlights of the proposed methodology}
       \label{fig:surveyResults:method}
     \end{subfigure}
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       {\tiny \input{content/results/figures/survey.tex} }
-      \caption{{\small xx}}
+      \caption{{\small comparison}}
       \label{fig:surveyResults:comparison}
     \end{subfigure}
   \end{subfigure}
