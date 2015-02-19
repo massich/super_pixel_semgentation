@@ -109,7 +109,7 @@ Whereas \cref{fig:features:relation} relates the visual cues to the following fe
 
 \begin{description}
   \item[Appearance] 
-    Based on the multi-labelled \ac{gt}, a \ac{mad} histogram model for every tissue label is build. The Appearance feature is computed as the \ac{qc} distance between histogram of $s$ and the models.
+    Based on the multi-labelled \ac{gt}, a \ac{mad} histogram model for every tissue label is built. The Appearance feature is computed as the $\chi^2$ distance between histogram of $s$ and the models.
   \item[Atlas] 
     Based on the multi-labelled \ac{gt} an atlas is build to encode the label likelihood based on the location of $s$.
   \item[Brightness] 
@@ -171,10 +171,10 @@ To encode this visual cue as data term feature implies to use smaller super-pixe
 
 In this manner the B.Echo-texture, is mainly encoded by the SIFT-BoF but also through the Appearance feature since elements would have the same model.
 Acoustic Posterior is mainly captured by the Brightness feature, but the Atlas also brings crucial information to compensate for intensity inhomogeneities caused by signal attenuation present in the most posterior parts of the image.
-The Echo Pattern cue, encodes the echoginity of a region with respect to the adipose tissue. This can be found at the anterior part of the image with its echoginity is close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
+The Echo Pattern cue, encodes the echogenity of a region with respect to the adipose tissue. This can be found at the anterior part of the image with its echogenity close to the middle of the spectrum. Appearance, Brightness and the Atlas account for such information.
 
 \subsubsection{The data term construction}
-For the work here reported, a \ac{svm} classifier is used to determine the data model during the training stage.
+For the work here reported, a \ac{rbf}-\ac{svm} classifier is used to determine the data model during the training stage.
 During the testing stage, $D_s(\omega_s=l)$ corresponds to the distance between the testing samples and the model associated to $l$ as the \ac{svm} classification reward. 
 
 \subsection{The pairwise (or smoothing) term} \label{sec:method:mrfTerm}
