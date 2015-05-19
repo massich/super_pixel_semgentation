@@ -1,42 +1,27 @@
-Scientific publication in laTeX
-===============================
+QCAV2015 Breast Article writing in Latex
+========================================
 
 What ?
 ------
-look at the damn title. This repo contains the latex for a scientific publication.
+look at the damn title. This repo contains the latex for the article.
 
-After a little description of what's the publication about, the rest of the section
-is use to describe the publication's target.
+### Summary Submission requests
 
-### Call for Papers target discussion topics
-(check-list to cross when applies)
+Prospective authors must submit an extended summary of approximately 2,000 words (not including references) in English. Summaries must be single column and formatted to fit 8.5 in. x 11 in. page size.
 
-* [ ] Blabla bla type A topic
-* [ ] Blabla bla type B topic
-* [x] Blabla bla type C topic
-* [ ] Blabla bla type D topic
-* [ ] Blabla bla type E topic
-* [ ] Blabla bla type F topic
+### TODO List 
+Each submission should consist of:
 
-### Important dates
-(check-list to keep track of the dates)
 
-* [ ] **xxxx-xx-xx xx:xx PM PST** Registration of paper with title, abstract and authors
-* [ ] **xxxx-xx-xx xx:xx PM PST** Full paper submission deadline
-* [ ] **xxxx-xx-xx xx:xx PM PST** Supplementary material deadline
-
-### Submission Guidelines 
-(check-list to ensure proper submission)
-
-* [ ] Papers should be formatted in xxxxxxxxxxxxxxxx xxxxxxxx style.
-* [ ] X pages maximum.
-* [ ] The review process is double blind:
-  * [ ] Remove author and institutional information by replacing the information using * .
-  * [ ] Remove author information from all paper headers.
-  * [ ] Remove clues from:
-    * [ ] Acknowledgment
-    * [ ] collaborating partners (hospitals, companies)
-    * [ ] Your own published work (including online publications) must be cited in the third person.
+```no-highlight
+* [ ] Title of paper
+* [x] Author listing with principal author first including first and last name, affiliation, mailing address,  and e-mail address
+   |  [ ] telephone, facsimile,
+* [ ] Preference for oral or poster presentation
+* [x] Keywords (up to 5 descriptive words)
+* [ ] Summary text (approximately 2000 words)
+* [ ] Brief biography of principal author (approximately 50 words)
+```
 
 How ?
 -----
@@ -57,21 +42,37 @@ The document structure is as follows
     |____README.md            % this document you are reading.
     |
     |____content
-    | |   % This folder contains any file related with the content of the
-    | |   % document. Each capter (or section) are stored in separated
+        content/
+    | |   % This folder contains any file related with the content of the 
+    | |   % document. Each capter (or section) are stored in separated 
     | |   % folders, which contain a figures subdirectory. Other content
     | |   % refering to the whole document such as frontmatter, acronyms
     | |   % and bibliography can be found directly in this content folder.
     | |
-    | |____acronym_definition.tex
-    | |____frontmatter.tex
-    | |____lit_review.bib
-    | |
-    | |____intro
-    | | |____intro.tex
-    | |____other
-    | | |____cite_examples.tex              % how-to use biblatex
-    | | |____other.tex
+    | ├── acronym_definition.tex
+    | ├── frontmatter.tex
+    | ├── lit_review.bib
+    | │
+    | ├── features
+    | │   └── features.tex
+    | │
+    | ├── intro
+    | │   ├── figures
+    | │   │   │   % folder containing figures
+    | │   │   └──
+    | │   └── intro.tex
+    | │
+    | ├── method
+    | │   ├── figures
+    | │   │   │   % folder containing figures
+    | │   │   └──
+    | │   └── method.tex
+    | │
+    | └── results
+    |    ├── figures
+    |    │   │   % folder containing figures
+    |    │   └──
+    |    └── results.tex
     |
     |____latex
     | |   % This folder contains all the files regarding the behaviour of
@@ -93,8 +94,6 @@ The cross indicates, that they have a usage example in this template.
 * [x] acro using marcos=true, which allow for \myTriger instead of \ac{myTriger}
 * [x] hyperref
 * [x] cleveref
-* [x] lipsum
-
 
 ### Procedure
 The master branch should be stay clean. Every conceptual increment (or todo item) should generate an issue. In order to address the issue a branch should be created and worked out. Once the issue is finished the master is checked out and the branch merged. If a issue needs to be reopen the issue is checked out, merged to master and reworked. Consider to open a new issue instead of reopening a previous one when possible.
