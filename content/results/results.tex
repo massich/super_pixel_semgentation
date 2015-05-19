@@ -1,29 +1,107 @@
 % include the figures path relative to the master file
 \graphicspath{ {./content/results/figures/} }
+\input{./content/results/figures/quantitative_figure_definitions.tex}
 
-\section{Results} 
-A lack of public data to perform fair comparison between methodologies using a common benchmark is a recurrent problem in medical imaging.
-\ac{bus} imaging is no exception \cite{Cheng:2009p10580}. 
-Therefore our framework can only be compared for the lesions segmentation case, and only against the results reported in the bibliography.
 
-\Cref{fig:surveyResults} compares our segmentation strategy against the state-of-the-art methodologies assuming the following limitations:
-(a) the other methodologies' performance has been collected from the literature. 
-(b) Since all the segmentation results are reported using different metrics, those have been translated to \ac{aov} as a common evaluation metric.
-(c) Evaluation datasets not only differ in image acquisition but also their sizes suffer a large variation. 
+\section{Method evaluation and comparison} 
+A 16 \ac{bus} images dataset with accompanying multi-label \ac{gt} delineating all the structures present in the images has been used to evaluate the proposed methodology for lesion segmentation application.
+Every image in the dataset presents a single lesion with variable extension. 
+The size of the lesions ranges from under $1/100$ to over $1/5$ of the image.
+The dataset composed of cysts, \acp{fa}, \acp{dic} and \acp{ilc}.
 
-Each radius (a .. p) represents a methodology from the literature.
-Those methodologies have been grouped in terms of \ac{ml}, \ac{acm}, other methodologies, and combinations of those three classes.
-The figure reports the size of the dataset the authors have used for evaluation and also the \ac{aov} reported. 
-Highlighted in blue there is also represented an experiment conduced by Pons et al.~\cite{gerard2013} where 50 \ac{bus} images with a single lesion were all delineated by 5 experts in order to study inter- and intra-observer variability of \ac{gt} annotation. 
-The experiment reported an \ac{aov} rate between $0.8$ and $0.852$ for the 6 actors, when counting the original \ac{gt} accompanying the images.
-
-Our segmentation results are represented as a black circle showing that those are within the state-of-the-art. 
-A more meticulous analysis of the results is present in the complete version of the manuscript.
+\Cref{fig:results} shows qualitative results, results whereas the quantitative results from the best configuration are reported as a table in \cref{fig:surveyResults:method}~\cite{massich2013phd}.
+Notice that for the proposed framework, the performance in terms of \ac{aov} is limited by the capacity of the super-pixels to snap the desired boundary.
+\Cref{fig:results:perfect} shows how the delineation resulting from a proper labeling of the super-pixels differs from the \ac{gt}.
+Despite the fact that a \ac{fpr} of $0.4$ seems significant, based on our experiments most of the images produce no \ac{fp} lesions.
+However, images with \ac{fp} lesions, are likely to produce more several of them as shown in \cref{fig:results}c-e.
+The amount of \ac{fp} lesions can be trimmed by applying a higher cost in the pairwise therm (compare \cref{fig:resuts:smallPWterm} and \cref{fig:results:bigPWterm}.
+Nevertheless, a severe increasing of the pairwise cost also increases the \ac{fnr} since some lesions are missed due to over-smoothing~\cite{massich2013phd}.
+The situation of having a larger \ac{fnr} is less desirable than reducing the \ac{fpr}. 
+The \ac{fnr} reported in \cref{fig:surveyResults:method} is caused by an image within the dataset that its lesion is fully contained in a single super-pixel and still around $20\%$ of this super-pixel's area is healty tissue. 
 
 \begin{figure}[h]
   \centering
-  \input{content/results/figures/survey.tex}
-  \caption{Quantitative AOV results}
+
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSorigin}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[trim= 20 0 30 0, clip, height=4cm]{goodQSseg}
+    \caption{}
+    \label{fig:results:perfect}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\textwidth}
+    \centering
+    \includegraphics[trim = 0 90 0 0, clip, height=4cm]{fporigin}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.15\textwidth}
+    \begin{subfigure}[b]{\textwidth}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpnohom}
+      \caption{\small weak $V(\cdot,\cdot)$}
+      \label{fig:resuts:smallPWterm}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+      \vspace{5pt}
+      \includegraphics[trim = 0 90 0 0, clip, height=1.6cm]{fpHom}
+      \caption{\small strong $V(\cdot,\cdot)$}
+      \label{fig:results:bigPWterm}
+    \end{subfigure}
+  \end{subfigure}
+
+  \caption{\small Qualitative results. 
+    (a) Example 1: orignal image, super-pixels' delineations and \ac{gt}. 
+    (b) Differences between \ac{gt} and the delination resulting from super-pixels' boundary.
+    (c) Ex. 2.
+    (d,~e) Pairwise term influence to \ac{fpr}, \ac{fnr}}
+  \label{fig:results}
+\end{figure}
+
+Due to the lack of publicly available data (and code) there is no manner to perform a methodology comparison further than compiling the results reported in the literature.
+The table in \Cref{fig:surveyResults:survey} complies the evaluation reported by the authors of the most relevant methodologies found in the literature~\cite{massich2013phd}.
+Details about the methodologies proposed in the literature can also be found in the aforesaid table.
+Specifically it is detailed the category of technique been used for detecting the lesions, segmenting it and post-process the delineations (if any).
+The studied categories are: \ac{ml}, \ac{acm} and others.
+The iconography used in \cref{fig:surveyResults:survey} also illustrates if those stages are treated as independent and connected in a daisy-chain fashion, or otherwise the stages are addressed in an atomic manner.
+
+\Cref{fig:surveyResults:comparison} renders the information present in \cref{fig:surveyResults:survey} and \cref{fig:surveyResults:method} in a visual manner compare all the results at once.
+The methodologies arranged in a radial fashion and grouped by its most representative technology category. 
+In red it can be found a small, medium and large categorization of the dataset reported for testing.
+The concentric circles represent \ac{aov}. 
+The blue line correspond to the \ac{aov} results reported in the literature, whereas the black line indicates the \ac{aov} our framework scored in our testing.
+An extra element is also represented in \cref{fig:surveyResults:comparison} as blue swatch delimited by two blue dashed lines.
+The boundaries of this swatch correspond to performance of expert radiologists in terms of \ac{aov} based on an inter- and intra-observer experiment carried out by Pons et al.~\cite{gerard2013}\footnote{The dataset used for testing the framework here proposed corresponds to the subset of images used by Pons et al.~\cite{gerard2013} that have accompanying multi-labelled \ac{gt}.}.
+
+When comparing the results it is clear the inconvenience of unexciting public data, since several of the results outperform the manual delineations studied in~\cite{gerard2013}.
+It can also be seen that the category tested in larger datasets is \ac{ml}, whereas \ac{acm} lead to better segmentations since the lesion boundary is easier to model in \ac{acm} compared to \ac{ml} based techniques.
+
+\begin{figure}[h]
+  \begin{subfigure}[b]{\textwidth}
+    {\tiny \input{content/results/figures/survey_table.tex}}
+    \caption{\ac{bus} images lesion segmentation strategies compiled from the bulk of the literature: reported quantitative results and methodology highlights.}
+    \label{fig:surveyResults:survey}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+      {\footnotesize \input{content/results/figures/method_resume.tex}}
+      \caption{Higlights of the proposed methodology}
+      \label{fig:surveyResults:method}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+      {\tiny \input{content/results/figures/survey.tex} }
+      \caption{{\small comparison}}
+      \label{fig:surveyResults:comparison}
+    \end{subfigure}
+  \end{subfigure}
+  \hfill
+  \caption{Quantitative results compilation and comparison}
   \label{fig:surveyResults}
 \end{figure}
 

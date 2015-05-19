@@ -32,17 +32,20 @@
 \maketitle
 
 \begin{abstract}
-Breast cancer is the second most common cancer.
-Medical imaging has become an indispensable tool for its prevention and treatment.
-Due to several reasons, there is a growing interest in the medical community to incorporate \ac*{us} screening as part of the standard routine.
-This lead to new developments in \ac*{cad} systems applied to breast cancer and \acs*{us} images.
-However in order to produce proper diagnosis using computer systems, accurate delineations of the lesions and structures of the breast are essential.
+\acresetall  % reset the acronyms from the title (if any)
+  Breast cancer is the second most common cancer and the leading cause of cancer death among women.
+  Medical imaging has become an indispensable tool for its diagnosis and follow up.
+  During the last decade, the medical community has promoted to incorporate \ac{us} screening as part of the standard routine.
+  The main reason for using \ac{us} imaging is its capability to differentiate benign from malignant masses, when compared to other imaging techniques.
+  The increasing usage of \ac{us} imaging encourages the development of \ac{cad} systems applied to \ac{bus} images.
+  However accurate delineations of the lesions and structures of the breast are essential for \ac{cad} systems in order to extract information needed to perform diagnosis.
 
-This article proposes a highly modular and flexible framework for segmenting lesions and tissues present in \ac*{bus} images, which takes advantage of optimization strategy using super-pixels and high-level descriptors similar to the visual cues used by radiologists for diagnosis.
-Qualitative and quantitative results are provided stating a performance within the range of the state-of-the-art.
+  This article proposes a highly modular and flexible framework for segmenting lesions and tissues present in \ac{bus} images.
+  The proposal takes advantage of optimization strategies using super-pixels and high-level descriptors, which are analogous to the visual cues used by radiologists.
+  Qualitative and quantitative results are provided stating a performance within the range of the state-of-the-art.
 \end{abstract}
 
-\keywords{Breast Ultra-Sound, Machine-Learning based Segmentation}
+\keywords{Breast Ultra-Sound, BI-RADS lexicon, Optimization based Segmentation, Machine-Learning based Segmentation, Graph-Cuts}
 
 %% Incldue the content without .tex extension
 \acresetall  % reset the acronyms from the abstract
@@ -51,9 +54,17 @@ Qualitative and quantitative results are provided stating a performance within t
 %\include*{content/features/features}
 \include*{content/results/results}
 
+\section{Conclusions}
+This work presents a segmentation strategy to delineate lesions in \ac{bus} images using an optimization framework that takes advantage of all the facilities available when using \ac{ml} techniques.
+Despite the limitation that the final segmentation is subject to the super-pixels' boundaries, the \ac{aov} results here reported are similar to those reported by other methodologies in the literature.
+A higher \ac{aov} result can be achieved by deforming the delineation resulting from the proposed framework using this to initialize a second post-processing step based on \ac{acm}. In this manner the contour constrains could be applied to achieve a more natural delineation.
+
 %\acknowledgments     %>>>> equivalent to \section*{ACKNOWLEDGMENTS}
 %
 %This unnumbered section is used to identify those who have aided the authors in understanding or accomplishing the work presented and to acknowledge sources of funding.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% References %%%%%
 
 
 \bibliography{./content/lit_review}   %>>>> bibliography data in report.bib

@@ -1,25 +1,26 @@
 %  The subcaption package allows for subfloat figure within a single float.
-%  This package substitutes the depregated subfigure and subfig packages 
-%  allowing to have subfigures within figures, or subtables within table 
-%  floats. Subfloats have their own caption, and an optional global 
-%  caption. 
+%  This package substitutes the depregated subfigure and subfig packages
+%  allowing to have subfigures within figures, or subtables within table
+%  floats. Subfloats have their own caption, and an optional global
+%  caption.
 %  >> WARNING: some journal templates from Springer and IEETrans might not
-%              be compatible with this package forcing to use the 
+%              be compatible with this package forcing to use the
 %              deprecated packages instead.
 \usepackage{subcaption}
 \usepackage{subfig}
 
-%  The following command loads a graphics package to include images 
+%  The following command loads a graphics package to include images
 %  in the document. It may be necessary to specify a DVI driver option,
 %  e.g., [dvips], but that may be inappropriate for some LaTeX
 %  installations.
 \usepackage[]{graphicx}
 
-% In order to include files without having a clear page using \include*, 
+% In order to include files without having a clear page using \include*,
 % the newclude package is required
 \usepackage{newclude}
 
 % Required for acronyms
+<<<<<<< HEAD
 % use \acresetall to reset the acroyms counter
 % macros=True, allows for calling \myTriger rather than \ac{myTriger}
 \usepackage[single=true, macros=true, xspace=true]{acro}
@@ -27,6 +28,12 @@
 % In SPIE template, biblatex can NOT be used to manage the referencing
 %
 %\usepackage[style=spiebib, backend=biber]{biblatex}
+||||||| merged common ancestors
+\usepackage{acro}
+=======
+% use \acresetall to reset the acroyms counter
+\usepackage{acro}
+>>>>>>> xx
 
 % Managing TODOES and unfinished figures
 \usepackage{todonotes}
@@ -82,6 +89,7 @@
 }
 %%---- end tikz legends
 
+
 % Clever cross referencing. Using cleverref, instead of writting
 % figure~\ref{...} or equation~\ref{...}, only \cref{...} is required.
 % The package interprates the references and introduces the figure, fig.,
@@ -89,5 +97,5 @@
 % >> WARNING: This package needs to be loaded after hyperref, math packages,
 %             etc. if used.
 %             Cleveref is recomended to load late
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{cleveref}
