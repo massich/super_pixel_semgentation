@@ -65,7 +65,7 @@ The document structure is as follows
     | |
     | |____acronym_definition.tex
     | |____frontmatter.tex
-    | |____literature_review.bib
+    | |____lit_review.bib
     | |
     | |____intro
     | | |____intro.tex
@@ -87,7 +87,7 @@ The document structure is as follows
 ### Latex Packages
 The cross indicates, that they have a usage example in this template.
 
-* [x] [biblatex](http://www.ctan.org/pkg/biblatex) using a biber backend
+* [ ] [biblatex](http://www.ctan.org/pkg/biblatex) using a biber backend
 * [x] graphicx
 * [x] newclude
 * [x] acro using marcos=true, which allow for \myTriger instead of \ac{myTriger}
